@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard - QuyStore</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #0f1117;
+            font-family: 'Inter', sans-serif;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        /* ========== SIDEBAR ========== */
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: #16191f;
+            border-right: 1px solid rgba(255,255,255,0.06);
+            position: sticky;
+            top: 0;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-brand {
+            padding: 28px 24px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .sidebar-brand h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+        }
+
+        .sidebar-brand small { color: #666; font-size: 0.72rem; }
+
+        .nav-section { padding: 20px 12px; flex: 1; }
+        .nav-section-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #444;
+            padding: 0 8px;
+            margin-bottom: 8px;
+        }
+
+        .nav-item-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: #888;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.15s;
+            margin-bottom: 2px;
+        }
+
+        .nav-item-link:hover { background: rgba(255,255,255,0.05); color: #ccc; }
+        .nav-item-link.active {
+            background: linear-gradient(90deg, rgba(251,191,36,0.15), rgba(251,191,36,0.05));
+            color: #fbbf24;
+            border-left: 2px solid #fbbf24;
+        }
+
+        .nav-item-link i { width: 16px; text-align: center; }
+
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        /* ========== CONTENT ========== */
+        .content-area { flex: 1; padding: 36px; overflow-x: hidden; }
+
+        .page-header { margin-bottom: 32px; }
+        .page-header h1 {
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .page-header p { color: #555; font-size: 0.875rem; }
+
+        /* ========== KPI CARDS ========== */
+        .kpi-card {
+            background: #16191f;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .kpi-card.revenue::before  { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+        .kpi-card.total::before    { background: linear-gradient(90deg, #3b82f6, #6366f1); }
+        .kpi-card.pending::before  { background: linear-gradient(90deg, #ef4444, #f97316); }
+        .kpi-card.done::before     { background: linear-gradient(90deg, #10b981, #34d399); }
+
+        .kpi-icon {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+
+        .kpi-card.revenue .kpi-icon  { background: rgba(251,191,36,0.12); color: #fbbf24; }
+        .kpi-card.total .kpi-icon    { background: rgba(59,130,246,0.12); color: #3b82f6; }
+        .kpi-card.pending .kpi-icon  { background: rgba(239,68,68,0.12);  color: #ef4444; }
+        .kpi-card.done .kpi-icon     { background: rgba(16,185,129,0.12); color: #10b981; }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .kpi-label {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .kpi-sub {
+            font-size: 0.75rem;
+            color: #444;
+            margin-top: 6px;
+        }
+
+        /* ========== PANEL ========== */
+        .panel {
+            background: #16191f;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-header h5 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+        }
+
+        .panel-header span {
+            font-size: 0.78rem;
+            color: #555;
+        }
+
+        /* ========== CHART ========== */
+        .chart-wrapper {
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 36px;
+            flex-wrap: wrap;
+        }
+
+        .chart-canvas-wrap {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            flex-shrink: 0;
+        }
+
+        .chart-legend { flex: 1; min-width: 160px; }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .legend-item:last-child { border-bottom: none; }
+
+        .legend-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .legend-name { font-size: 0.83rem; color: #aaa; flex: 1; }
+        .legend-count { font-size: 0.83rem; font-weight: 700; color: #fff; }
+        .legend-pct { font-size: 0.72rem; color: #555; margin-left: 4px; }
+
+        /* ========== TABLE ========== */
+        .dark-table { width: 100%; border-collapse: collapse; }
+        .dark-table thead th {
+            padding: 12px 24px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #555;
+            background: #0f1117;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .dark-table tbody td {
+            padding: 14px 24px;
+            font-size: 0.875rem;
+            color: #ccc;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            vertical-align: middle;
+        }
+
+        .dark-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
+        .dark-table tbody tr:last-child td { border-bottom: none; }
+
+        /* Status pills */
+        .s-pill {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .s-pending   { background: rgba(251,191,36,0.12);  color: #fbbf24; }
+        .s-approved  { background: rgba(16,185,129,0.12);  color: #10b981; }
+        .s-shipping  { background: rgba(59,130,246,0.12);  color: #60a5fa; }
+        .s-delivered { background: rgba(52,211,153,0.12);  color: #34d399; }
+        .s-cancelled { background: rgba(239,68,68,0.12);   color: #f87171; }
+        .s-default   { background: rgba(156,163,175,0.12); color: #9ca3af; }
+
+        /* ========== MISC ========== */
+        .revenue-big {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #fbbf24;
+        }
+
+        .order-id { font-weight: 700; color: #6366f1; }
+    </style>
+</head>
+
+<body>
+<div class="d-flex">
+
+    <!-- ===== SIDEBAR ===== -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <h3><i class="fas fa-chart-line me-2" style="color:#fbbf24"></i>Manager HQ</h3>
+            <small>QuyStore Analytics</small>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-label">Báo cáo</div>
+            <a href="/manager/" class="nav-item-link active">
+                <i class="fas fa-tachometer-alt"></i> Tổng quan KPI
+            </a>
+            <a href="/staff/" class="nav-item-link">
+                <i class="fas fa-users-cog"></i> Nhân viên & Kho
+            </a>
+            <a href="/" class="nav-item-link">
+                <i class="fas fa-store"></i> Cửa hàng
+            </a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="d-flex align-items-center mb-3" style="gap:10px;padding:0 4px;">
+                <div style="width:36px;height:36px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#000;font-size:0.9rem;">M</div>
+                <div>
+                    <div style="color:#fff;font-size:0.875rem;font-weight:600;">Manager</div>
+                    <div style="color:#555;font-size:0.72rem;">Cấp quản lý</div>
+                </div>
+            </div>
+            <a href="/login/" class="btn w-100" style="background:rgba(255,255,255,0.05);color:#888;border:1px solid rgba(255,255,255,0.08);border-radius:8px;font-size:0.8rem;">
+                <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== CONTENT ===== -->
+    <div class="content-area">
+
+        <!-- Header -->
+        <div class="page-header">
+            <h1>📊 Bảng điều khiển KPI</h1>
+            <p>Dữ liệu cập nhật từ hệ thống — QuyStore Analytics</p>
+        </div>
+
+        <!-- ===== KPI CARDS ===== -->
+        <div class="row g-3 mb-4">
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="kpi-card revenue">
+                    <div class="kpi-icon"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="kpi-value">{{ total_revenue|floatformat:0 }}đ</div>
+                    <div class="kpi-label">Tổng Doanh Thu</div>
+                    <div class="kpi-sub">Cộng dồn từ {{ total_orders }} đơn hàng</div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="kpi-card total">
+                    <div class="kpi-icon"><i class="fas fa-shopping-cart"></i></div>
+                    <div class="kpi-value">{{ total_orders }}</div>
+                    <div class="kpi-label">Tổng Đơn Hàng</div>
+                    <div class="kpi-sub">{{ delivered_orders }} đã giao thành công</div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="kpi-card pending">
+                    <div class="kpi-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="kpi-value">{{ pending_orders }}</div>
+                    <div class="kpi-label">Đơn Tồn Đọng</div>
+                    <div class="kpi-sub">Cần nhân viên xử lý gấp!</div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="kpi-card done">
+                    <div class="kpi-icon"><i class="fas fa-check-double"></i></div>
+                    <div class="kpi-value">{{ delivered_orders }}</div>
+                    <div class="kpi-label">Đơn Hoàn Thành</div>
+                    <div class="kpi-sub">{{ cancelled_orders }} đã bị hủy</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== ROW 2: Chart + Recent Orders ===== -->
+        <div class="row g-3">
+
+            <!-- Pie Chart -->
+            <div class="col-12 col-lg-5">
+                <div class="panel h-100">
+                    <div class="panel-header">
+                        <h5><i class="fas fa-chart-pie me-2" style="color:#fbbf24"></i>Phân tích Trạng thái</h5>
+                        <span>{{ total_orders }} đơn</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <div class="chart-canvas-wrap">
+                            <canvas id="statusPieChart"></canvas>
+                        </div>
+                        <div class="chart-legend">
+                            {% if pending_orders %}
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background:#fbbf24"></div>
+                                <span class="legend-name">⏳ Chờ xử lý</span>
+                                <span class="legend-count">{{ pending_orders }}</span>
+                                {% if total_orders %}<span class="legend-pct">({% widthratio pending_orders total_orders 100 %}%)</span>{% endif %}
+                            </div>
+                            {% endif %}
+                            {% if approved_orders %}
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background:#10b981"></div>
+                                <span class="legend-name">✅ Đã duyệt</span>
+                                <span class="legend-count">{{ approved_orders }}</span>
+                                {% if total_orders %}<span class="legend-pct">({% widthratio approved_orders total_orders 100 %}%)</span>{% endif %}
+                            </div>
+                            {% endif %}
+                            {% if shipping_orders %}
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background:#3b82f6"></div>
+                                <span class="legend-name">🚚 Đang giao</span>
+                                <span class="legend-count">{{ shipping_orders }}</span>
+                                {% if total_orders %}<span class="legend-pct">({% widthratio shipping_orders total_orders 100 %}%)</span>{% endif %}
+                            </div>
+                            {% endif %}
+                            {% if delivered_orders %}
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background:#34d399"></div>
+                                <span class="legend-name">🎉 Đã giao</span>
+                                <span class="legend-count">{{ delivered_orders }}</span>
+                                {% if total_orders %}<span class="legend-pct">({% widthratio delivered_orders total_orders 100 %}%)</span>{% endif %}
+                            </div>
+                            {% endif %}
+                            {% if cancelled_orders %}
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background:#ef4444"></div>
+                                <span class="legend-name">❌ Đã hủy</span>
+                                <span class="legend-count">{{ cancelled_orders }}</span>
+                                {% if total_orders %}<span class="legend-pct">({% widthratio cancelled_orders total_orders 100 %}%)</span>{% endif %}
+                            </div>
+                            {% endif %}
+                            {% if not total_orders %}
+                            <p style="color:#555;font-size:0.8rem;text-align:center;padding:20px 0;">Chưa có dữ liệu đơn hàng</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders Table -->
+            <div class="col-12 col-lg-7">
+                <div class="panel h-100">
+                    <div class="panel-header">
+                        <h5><i class="fas fa-receipt me-2" style="color:#6366f1"></i>Sao kê Giao dịch gần nhất</h5>
+                        <span>10 đơn mới nhất</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="dark-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn</th>
+                                    <th>Khách hàng</th>
+                                    <th>Doanh thu</th>
+                                    <th>Phương thức</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in recent_orders %}
+                                <tr>
+                                    <td><span class="order-id">#{{ order.id }}</span></td>
+                                    <td>
+                                        <div style="display:flex;align-items:center;gap:8px;">
+                                            <div style="width:28px;height:28px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#fff;">{{ order.customer_id }}</div>
+                                            <span style="color:#888">KH_{{ order.customer_id }}</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="revenue-big">{{ order.total_price|floatformat:0 }}đ</span></td>
+                                    <td>
+                                        {% if order.payment_method_id == 1 %}
+                                        <span style="color:#888;font-size:0.8rem;"><i class="fas fa-money-bill-wave me-1" style="color:#10b981"></i>COD</span>
+                                        {% else %}
+                                        <span style="color:#888;font-size:0.8rem;"><i class="fas fa-credit-card me-1" style="color:#3b82f6"></i>PM #{{ order.payment_method_id }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if order.status == 'PENDING' %}
+                                            <span class="s-pill s-pending">⏳ Chờ xử lý</span>
+                                        {% elif order.status == 'APPROVED' %}
+                                            <span class="s-pill s-approved">✅ Đã duyệt</span>
+                                        {% elif order.status == 'PAID_AND_SHIPPING' %}
+                                            <span class="s-pill s-shipping">🚚 Đang giao</span>
+                                        {% elif order.status == 'DELIVERED' %}
+                                            <span class="s-pill s-delivered">🎉 Đã giao</span>
+                                        {% elif order.status == 'CANCELLED' %}
+                                            <span class="s-pill s-cancelled">❌ Đã hủy</span>
+                                        {% else %}
+                                            <span class="s-pill s-default">{{ order.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" style="text-align:center;padding:48px;color:#444;">
+                                        <i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:8px;"></i>
+                                        Chưa có giao dịch nào
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- end row -->
+
+    </div><!-- end content-area -->
+</div><!-- end d-flex -->
+
+<!-- ===== CHART.JS SCRIPT ===== -->
+<script>
+    const pending   = {{ pending_orders }};
+    const approved  = {{ approved_orders }};
+    const shipping  = {{ shipping_orders }};
+    const delivered = {{ delivered_orders }};
+    const cancelled = {{ cancelled_orders }};
+
+    const labels  = [];
+    const data    = [];
+    const colors  = [];
+    const borderC = [];
+
+    const statusDef = [
+        { label: '⏳ Chờ xử lý',  value: pending,   color: '#fbbf24', border: '#d97706' },
+        { label: '✅ Đã duyệt',    value: approved,  color: '#10b981', border: '#059669' },
+        { label: '🚚 Đang giao',   value: shipping,  color: '#3b82f6', border: '#1d4ed8' },
+        { label: '🎉 Đã giao',     value: delivered, color: '#34d399', border: '#10b981' },
+        { label: '❌ Đã hủy',      value: cancelled, color: '#ef4444', border: '#b91c1c' },
+    ];
+
+    statusDef.forEach(s => {
+        if (s.value > 0) {
+            labels.push(s.label);
+            data.push(s.value);
+            colors.push(s.color);
+            borderC.push(s.border);
+        }
+    });
+
+    const ctx = document.getElementById('statusPieChart').getContext('2d');
+
+    if (data.length > 0) {
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: colors,
+                    borderColor: borderC,
+                    borderWidth: 2,
+                    hoverOffset: 12,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                cutout: '68%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#1e2130',
+                        titleColor: '#fff',
+                        bodyColor: '#aaa',
+                        borderColor: 'rgba(255,255,255,0.1)',
+                        borderWidth: 1,
+                        padding: 12,
+                        callbacks: {
+                            label: function(ctx) {
+                                const total = ctx.dataset.data.reduce((a,b) => a+b, 0);
+                                const pct = ((ctx.raw / total) * 100).toFixed(1);
+                                return `  ${ctx.raw} đơn (${pct}%)`;
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    animateRotate: true,
+                    duration: 900,
+                    easing: 'easeOutQuart',
+                }
+            }
+        });
+    } else {
+        // Vẽ vòng tròn placeholder nếu chưa có data
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Chưa có dữ liệu'],
+                datasets: [{
+                    data: [1],
+                    backgroundColor: ['#222'],
+                    borderColor: ['#333'],
+                    borderWidth: 2,
+                }]
+            },
+            options: {
+                responsive: true,
+                cutout: '68%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

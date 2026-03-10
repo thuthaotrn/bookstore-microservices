@@ -1,0 +1,40 @@
+{
+	"folders": [
+		{
+			"path": "api-gateway"
+		},
+		{
+			"path": "book-service"
+		},
+		{
+			"path": "cart-service"
+		},
+		{
+			"path": "catalog-service"
+		},
+		{
+			"path": "comment-rate-service"
+		},
+		{
+			"path": "customer-service"
+		},
+		{
+			"path": "manager-service"
+		},
+		{
+			"path": "order-service"
+		},
+		{
+			"path": "pay-service"
+		},
+		{
+			"path": "recommender-ai-service"
+		},
+		{
+			"path": "ship-service"
+		},
+		{
+			"path": "staff-service"
+		}
+	]
+}

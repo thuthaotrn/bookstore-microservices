@@ -1,0 +1,23 @@
+# Môi trường ảo (Virtual Environments)
+venv/
+env/
+.env
+
+# Các file tạm và thư mục cache của Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# IDE và Editor (VS Code)
+.vscode/
+
+# SQLite database (có thể cân nhắc giữ lại db.sqlite3 nếu muốn làm data mẫu)
+# db.sqlite3
+
+# Log files
+*.log
+
+# Cấu hình hệ điều hành
+.DS_Store
+Thumbs.db

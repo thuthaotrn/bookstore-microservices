@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập & Đăng ký - QuyStore</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .auth-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+            transition: all 0.3s ease;
+        }
+        .auth-header {
+            background: #fff;
+            padding: 30px 20px 20px;
+            text-align: center;
+            border-bottom: 2px solid #f0f0f5;
+        }
+        .btn-theme {
+            background: #ff424e;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 12px;
+        }
+        .btn-theme:hover { background: #e0202e; color: white; }
+        .toggle-link { cursor: pointer; color: #1e3c72; text-decoration: underline; font-weight: bold; }
+    </style>
+</head>
+
+<body>
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2 class="fw-bold text-primary mb-0"><i class="fas fa-book-reader me-2"></i>QuyStore</h2>
+            <p class="text-muted mt-2" id="form-subtitle">Hệ thống quản trị Microservices</p>
+        </div>
+        
+        <div class="card-body p-4">
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Tài khoản</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fas fa-user text-muted"></i></span>
+                        <input type="text" id="username" class="form-control" placeholder="Nhập tên đăng nhập..." required autofocus>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Mật khẩu</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fas fa-lock text-muted"></i></span>
+                        <input type="password" id="password" class="form-control" placeholder="Nhập mật khẩu..." required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-theme w-100 fs-5 mt-2">ĐĂNG NHẬP <i class="fas fa-sign-in-alt ms-2"></i></button>
+                
+                <div class="text-center mt-3">
+                    <span class="text-muted">Chưa có tài khoản? </span>
+                    <a class="toggle-link" onclick="toggleForm('register')">Đăng ký ngay</a>
+                </div>
+
+                <div class="mt-4 p-3 bg-light rounded text-center text-muted" style="font-size: 0.85rem;">
+                    <strong>💡 Tài khoản Demo:</strong><br>
+                    <code>admin</code>: Trang Nhân viên | <code>manager</code>: Trang Sếp<br>
+                    Khác: Khách hàng đi chợ
+                </div>
+            </form>
+
+            <form id="registerForm" onsubmit="handleRegister(event)" style="display: none;">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Họ và Tên</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fas fa-id-card text-muted"></i></span>
+                        <input type="text" id="regName" class="form-control" placeholder="Nhập họ tên..." required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Tên đăng nhập</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fas fa-user text-muted"></i></span>
+                        <input type="text" id="regUsername" class="form-control" placeholder="Tên đăng nhập..." required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Mật khẩu</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fas fa-lock text-muted"></i></span>
+                        <input type="password" id="regPassword" class="form-control" placeholder="Mật khẩu..." required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-theme w-100 fs-5 mt-3">ĐĂNG KÝ <i class="fas fa-user-plus ms-2"></i></button>
+                
+                <div class="text-center mt-3">
+                    <span class="text-muted">Đã có tài khoản? </span>
+                    <a class="toggle-link" onclick="toggleForm('login')">Quay lại Đăng nhập</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Redirect nếu đã login rồi
+        const existingUser = JSON.parse(localStorage.getItem('quystore_user') || 'null');
+        if (existingUser) {
+            if (existingUser.role === 'admin')    window.location.href = '/staff/';
+            else if (existingUser.role === 'manager') window.location.href = '/manager/';
+            else window.location.href = '/';
+        }
+
+        function toggleForm(type) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const subtitle = document.getElementById('form-subtitle');
+            if (type === 'register') {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                subtitle.innerText = 'Đăng ký tài khoản mới';
+            } else {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                subtitle.innerText = 'Hệ thống quản trị Microservices';
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name     = document.getElementById('regName').value.trim();
+            const username = document.getElementById('regUsername').value.trim().toLowerCase();
+            const password = document.getElementById('regPassword').value;
+
+            if (!name || !username || !password) {
+                showFormMsg('register', '⚠️ Vui lòng điền đầy đủ thông tin!', 'danger');
+                return;
+            }
+
+            // Lưu user mới vào localStorage
+            const newUser = { name, username, role: 'customer', avatar: name.charAt(0).toUpperCase() };
+            localStorage.setItem('quystore_user', JSON.stringify(newUser));
+            showFormMsg('register', '🎉 Đăng ký thành công! Chuyển hướng...', 'success');
+            setTimeout(() => window.location.href = '/', 800);
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                showFormMsg('login', '⚠️ Vui lòng nhập đầy đủ!', 'danger');
+                return;
+            }
+
+            let user;
+            if (username === 'admin') {
+                user = { name: 'Nhân viên Admin', username: 'admin', role: 'admin', avatar: 'A' };
+            } else if (username === 'manager') {
+                user = { name: 'Quản lý', username: 'manager', role: 'manager', avatar: 'M' };
+            } else {
+                user = { name: username.charAt(0).toUpperCase() + username.slice(1), username, role: 'customer', avatar: username.charAt(0).toUpperCase() };
+            }
+
+            localStorage.setItem('quystore_user', JSON.stringify(user));
+            showFormMsg('login', '✅ Đăng nhập thành công!', 'success');
+
+            setTimeout(() => {
+                if (user.role === 'admin')   window.location.href = '/staff/';
+                else if (user.role === 'manager') window.location.href = '/manager/';
+                else window.location.href = '/';
+            }, 600);
+        }
+
+        function showFormMsg(form, msg, type) {
+            let el = document.getElementById(form + 'Msg');
+            if (!el) {
+                el = document.createElement('div');
+                el.id = form + 'Msg';
+                const f = document.getElementById(form + 'Form');
+                f.insertBefore(el, f.firstChild);
+            }
+            el.className = `alert alert-${type} py-2 mb-3`;
+            el.style.fontSize = '0.85rem';
+            el.textContent = msg;
+        }
+    </script>
+</body>
+</html>

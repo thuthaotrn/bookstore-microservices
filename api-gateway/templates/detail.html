@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sách - QuyStore</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    body { background-color: #f5f5fa; font-family: 'Inter', 'Segoe UI', sans-serif; }
+    .navbar { background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%); }
+    .book-img { width:100%; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.1); }
+    .price { font-size:2rem; color:#ff424e; font-weight:bold; }
+    .review-card { border-left:4px solid #ffc107; background-color:#fff; border-radius:8px; }
+    .user-avatar {
+        width:36px; height:36px; border-radius:50%;
+        background:linear-gradient(135deg,#ff424e,#ff6b35);
+        display:flex; align-items:center; justify-content:center;
+        font-weight:700; color:#fff; font-size:0.9rem;
+        cursor:pointer; border:2px solid rgba(255,255,255,0.4); transition:border-color 0.2s;
+    }
+    .user-avatar:hover { border-color:#fff; }
+    .user-dropdown-menu {
+        position:absolute; top:calc(100% + 10px); right:0;
+        background:#fff; border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,0.15);
+        min-width:200px; padding:8px 0; z-index:9999; display:none;
+        border:1px solid rgba(0,0,0,0.05); animation:dropIn 0.2s ease;
+    }
+    .user-dropdown-menu.show { display:block; }
+    @keyframes dropIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+    .drop-header { padding:12px 16px; border-bottom:1px solid #f0f0f5; }
+    .drop-header strong { display:block; color:#1a1a2e; font-size:0.9rem; }
+    .drop-header span { font-size:0.75rem; color:#888; }
+    .drop-item {
+        display:flex; align-items:center; gap:10px;
+        padding:10px 16px; color:#333; font-size:0.875rem;
+        cursor:pointer; transition:background 0.15s; text-decoration:none;
+    }
+    .drop-item:hover { background:#f8f9fa; color:#333; }
+    .drop-item.danger { color:#dc3545; }
+    .drop-item.danger:hover { background:#fff5f5; }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3" href="/"><i class="fas fa-book-open me-2"></i>QuyStore</a>
+            <div class="d-flex align-items-center gap-3" id="navbarRight"></div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <a href="/" class="btn btn-outline-secondary mb-4"><i class="fas fa-arrow-left me-2"></i>Quay lại Cửa hàng</a>
+
+        {% if book %}
+        <div class="row bg-white p-4 rounded shadow-sm mb-5">
+            <div class="col-md-4 text-center">
+                {% if book.image_url %}
+                <img src="{{ book.image_url }}" alt="Cover" class="book-img">
+                {% else %}
+                <img src="https://dummyimage.com/400x600/e0e0e0/666666.png&text=Chưa+có+ảnh" alt="Cover"
+                    class="book-img">
+                {% endif %}
+            </div>
+
+            <div class="col-md-8">
+                <h2 class="fw-bold">{{ book.title }}</h2>
+                <p class="text-muted fs-5">Tác giả: {{ book.author }}</p>
+                <div class="price mb-3">{{ book.price|floatformat:0 }}đ</div>
+                <p class="badge bg-success fs-6"><i class="fas fa-box me-1"></i>Kho còn: {{ book.stock }} cuốn</p>
+
+                <hr>
+
+                <div class="d-flex align-items-center mt-4">
+                    <input type="number" id="quantity" class="form-control w-25 me-3 text-center" value="1" min="1"
+                        max="{{ book.stock }}">
+                    <button class="btn btn-danger btn-lg px-5" onclick="addToCart({{ book.id }})">
+                        <i class="fas fa-cart-plus me-2"></i>Thêm Vào Giỏ Ngay
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="fw-bold mb-4">Đánh giá từ khách hàng</h3>
+        <div class="row">
+            <div class="col-md-7">
+                {% if reviews %}
+                {% for r in reviews %}
+                <div class="review-card p-3 shadow-sm mb-3">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="fw-bold"><i class="fas fa-user-circle me-1"></i>Khách hàng #{{ r.customer_id }}</h6>
+                        <span class="text-warning">
+                            {{ r.rating }} <i class="fas fa-star"></i>
+                        </span>
+                    </div>
+                    <p class="mb-0 text-muted">{{ r.comment }}</p>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="alert alert-info">Chưa có đánh giá nào. Hãy là người đầu tiên!</div>
+                {% endif %}
+            </div>
+
+            <div class="col-md-5">
+                <div class="bg-light p-4 rounded border">
+                    <h5 class="fw-bold mb-3">Viết đánh giá của bạn</h5>
+                    <div class="mb-3">
+                        <label>Chấm điểm (1-5 sao):</label>
+                        <select id="rating" class="form-select text-warning fw-bold">
+                            <option value="5">⭐⭐⭐⭐⭐ (5 Sao)</option>
+                            <option value="4">⭐⭐⭐⭐ (4 Sao)</option>
+                            <option value="3">⭐⭐⭐ (3 Sao)</option>
+                            <option value="2">⭐⭐ (2 Sao)</option>
+                            <option value="1">⭐ (1 Sao)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Bình luận:</label>
+                        <textarea id="comment" class="form-control" rows="3"
+                            placeholder="Sách này đọc có bánh cuốn không?"></textarea>
+                    </div>
+                    <button class="btn btn-primary w-100" onclick="submitReview({{ book.id }})">
+                        <i class="fas fa-paper-plane me-2"></i>Gửi Đánh Giá
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-danger text-center fs-4">Mã sách không tồn tại hoặc Book Service đang sập!</div>
+        {% endif %}
+    </div>
+
+    <script>
+        // ===== USER SESSION NAVBAR =====
+        (function() {
+            const user = JSON.parse(localStorage.getItem('quystore_user') || 'null');
+            const nav = document.getElementById('navbarRight');
+            if (!nav) return;
+            const cartBtn = `<a href="/cart/" class="btn btn-warning btn-sm fw-bold text-dark rounded-pill"><i class="fas fa-shopping-cart me-2"></i>Giỏ Hàng</a>`;
+            const ordersBtn = `<a href="/orders/" class="btn btn-outline-light btn-sm rounded-pill"><i class="fas fa-box-open me-1"></i>Đơn hàng</a>`;
+            if (!user) {
+                nav.innerHTML = ordersBtn + cartBtn + `<a href="/login/" class="btn btn-outline-light btn-sm rounded-pill"><i class="fas fa-sign-in-alt me-1"></i>Đăng nhập</a>`;
+            } else {
+                nav.innerHTML = ordersBtn + cartBtn + `
+                <div style="position:relative" id="udw">
+                    <div class="user-avatar" onclick="this.parentElement.querySelector('.user-dropdown-menu').classList.toggle('show')" title="${user.name}">${user.avatar || user.name[0]}</div>
+                    <div class="user-dropdown-menu">
+                        <div class="drop-header"><strong>${user.name}</strong><span>${user.role === 'admin' ? 'Nhân viên' : user.role === 'manager' ? 'Quản lý' : 'Khách hàng'}</span></div>
+                        ${user.role === 'admin' ? '<a href="/staff/" class="drop-item"><i class="fas fa-cogs"></i> Trang Nhân viên</a>' : ''}
+                        ${user.role === 'manager' ? '<a href="/manager/" class="drop-item"><i class="fas fa-chart-line"></i> Trang Quản lý</a>' : ''}
+                        <a href="/orders/" class="drop-item"><i class="fas fa-box-open"></i> Đơn hàng của tôi</a>
+                        <div style="border-top:1px solid #f0f0f5;margin:4px 0"></div>
+                        <div class="drop-item danger" onclick="localStorage.removeItem('quystore_user');location.href='/login/'">
+                            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                        </div>
+                    </div>
+                </div>`;
+                document.addEventListener('click', e => {
+                    const w = document.getElementById('udw');
+                    if (w && !w.contains(e.target)) w.querySelector('.user-dropdown-menu')?.classList.remove('show');
+                });
+            }
+        })();
+
+        // 1. Hàm Thêm vào giỏ
+        async function addToCart(bookId) {
+            const qty = document.getElementById('quantity').value;
+            try {
+                const res = await fetch("/api/cart/cart-items/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ cart: 1, book_id: bookId, quantity: parseInt(qty) }) // Giả sử user 1 có cart_id = 1
+                });
+                if (res.ok) alert("✅ Thêm thành công " + qty + " cuốn vào giỏ!");
+                else alert("❌ Lỗi khi thêm vào giỏ!");
+            } catch (e) { alert("⚠️ Bị chặn CORS hoặc Cart Service đang tắt!"); }
+        }
+
+        // 2. Hàm Gửi Đánh giá
+        async function submitReview(bookId) {
+            const rating = document.getElementById('rating').value;
+            const comment = document.getElementById('comment').value;
+
+            if (!comment.trim()) { alert('Vui lòng nhập bình luận!'); return; }
+
+            const btn = event.target;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Đang gửi...';
+
+            try {
+                // Đi qua proxy, không gọi trực tiếp localhost
+                const res = await fetch('/api/comment/reviews/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ customer_id: 1, book_id: bookId, rating: parseInt(rating), comment: comment })
+                });
+
+                if (res.ok || res.status === 201) {
+                    alert('✅ Cảm ơn bạn đã đánh giá!');
+                    window.location.reload();
+                } else {
+                    const err = await res.json().catch(() => ({}));
+                    alert('❌ Lỗi: ' + JSON.stringify(err));
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Gửi Đánh Giá';
+                }
+            } catch (e) {
+                alert('⚠️ Lỗi kết nối đến Comment Service!');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Gửi Đánh Giá';
+            }
+        }
+    </script>
+</body>
+
+</html>
