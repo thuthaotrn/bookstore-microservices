@@ -3,156 +3,145 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Xác Thực — LUMIÈRE</title>
+  <title>Authenticate — NEXUS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --color-obsidian: #0A0A0A;
-      --color-charcoal: #2C2C2C;
-      --color-ivory: #F8F5F0;
-      --color-cream: #EDE8E0;
-      --color-gold: #C9A84C;
-      --color-ash: #6B6B6B;
-      --color-silk: #F0EBE3;
-      --color-emerald: #2D6A4F;
-      --color-crimson: #8B1A1A;
-      --font-display: 'Playfair Display', Georgia, serif;
-      --font-body: 'DM Sans', sans-serif;
+    :root{--bg-base:#0A0E1A;--bg-panel:#131826;--bg-elevated:#1A2030;--bg-hover:#1E2540;--border:rgba(255,255,255,0.06);--border-strong:rgba(255,255,255,0.12);--text-primary:#E4E7EC;--text-secondary:#8B92A8;--text-muted:#5A6076;--accent:#7C3AED;--accent-glow:#A78BFA;--accent-soft:rgba(124,58,237,0.12);--cyan:#06B6D4;--success:#10B981;--warning:#F59E0B;--danger:#EF4444;--font-display:'Space Grotesk',sans-serif;--font-body:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:var(--font-body);background:var(--bg-base);color:var(--text-primary);display:flex;min-height:100vh;overflow:hidden}
+    a{text-decoration:none;color:inherit;transition:all 0.25s}
+    button{font-family:var(--font-body);cursor:pointer;border:none;outline:none;transition:all 0.25s}
+
+    .split-left{
+      flex:1;position:relative;overflow:hidden;
+      background:radial-gradient(circle at 30% 30%, rgba(124,58,237,0.25), transparent 50%), radial-gradient(circle at 70% 70%, rgba(6,182,212,0.15), transparent 50%), #0A0E1A;
+      display:flex;flex-direction:column;justify-content:space-between;padding:48px 56px;color:var(--text-primary);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: var(--font-body);
-      background: var(--color-ivory);
-      color: var(--color-charcoal);
-      display: flex;
-      min-height: 100vh;
-      overflow: hidden;
+    .split-left::before{
+      content:'';position:absolute;inset:0;
+      background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);
+      background-size:48px 48px;
+      mask-image:radial-gradient(ellipse at center, black 30%, transparent 70%);
     }
-    .split-left {
-      flex: 1;
-      background: linear-gradient(rgba(10,10,10,0.4), rgba(10,10,10,0.6)),
-        url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
-      display: flex; flex-direction: column; justify-content: center;
-      padding: 64px; color: var(--color-ivory);
+    .split-left-content{position:relative;z-index:1}
+    .left-brand{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:3px;color:#fff;display:flex;align-items:center;gap:10px;margin-bottom:auto}
+    .left-brand::before{content:'';width:12px;height:12px;background:var(--accent);border-radius:3px;box-shadow:0 0 16px var(--accent-glow)}
+    .left-hero{position:relative;z-index:1;margin-top:auto}
+    .left-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:var(--accent-soft);border:1px solid rgba(124,58,237,0.3);border-radius:50px;font-family:var(--font-mono);font-size:11px;color:var(--accent-glow);margin-bottom:24px;text-transform:uppercase;letter-spacing:1.5px}
+    .left-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-glow);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+    .left-hero h1{font-family:var(--font-display);font-size:clamp(32px,4vw,52px);font-weight:700;letter-spacing:-0.03em;line-height:1.05;margin-bottom:20px;color:#fff}
+    .left-hero h1 .accent{background:linear-gradient(135deg,var(--accent-glow),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .left-hero p{font-size:15px;line-height:1.7;color:var(--text-secondary);max-width:420px}
+    .left-features{display:flex;gap:32px;margin-top:32px;padding-top:32px;border-top:1px solid var(--border)}
+    .left-feature .num{font-family:var(--font-mono);font-size:20px;font-weight:600;color:#fff}
+    .left-feature .label{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+    .split-right{
+      width:480px;background:var(--bg-panel);border-left:1px solid var(--border);
+      display:flex;flex-direction:column;justify-content:center;
+      padding:48px 56px;z-index:2;overflow-y:auto;position:relative;
     }
-    .split-left h1 {
-      font-family: var(--font-display);
-      font-size: clamp(32px, 4vw, 48px);
-      margin-bottom: 24px; line-height: 1.2;
+    @media(max-width:900px){
+      .split-left{display:none}
+      .split-right{width:100%;padding:32px 24px}
+      body{overflow:auto}
     }
-    .split-left p { font-size: 1.1rem; max-width: 400px; opacity: 0.9; }
-    .split-right {
-      width: 500px; background: #fff;
-      display: flex; flex-direction: column; justify-content: center;
-      padding: 48px; box-shadow: -10px 0 30px rgba(0,0,0,0.05); z-index: 2;
-      overflow-y: auto;
-    }
-    @media (max-width: 900px) {
-      .split-left { display: none; }
-      .split-right { width: 100%; padding: 24px; }
-      body { overflow: auto; }
-    }
-    .auth-logo {
-      font-family: var(--font-display); font-size: 28px; font-weight: 700;
-      letter-spacing: 3px; text-align: center; margin-bottom: 40px;
-      cursor: pointer; color: var(--color-obsidian);
-    }
-    .auth-form { display: flex; flex-direction: column; gap: 18px; }
-    .form-title { font-family: var(--font-display); font-size: 26px; margin-bottom: 4px; }
-    .form-subtitle { color: var(--color-ash); font-size: 15px; margin-bottom: 16px; }
-    .input-group { display: flex; flex-direction: column; gap: 6px; }
-    .input-group label {
-      font-size: 12px; font-weight: 600; color: var(--color-charcoal);
-      text-transform: uppercase; letter-spacing: 0.5px;
-    }
-    .input-group input {
-      padding: 13px 16px; border: 1.5px solid var(--color-silk); border-radius: 4px;
-      font-family: var(--font-body); font-size: 14px; outline: none;
-      background: #fff; transition: all 0.3s;
-    }
-    .input-group input:focus { border-color: var(--color-gold); }
-    .btn-submit {
-      margin-top: 8px; padding: 15px; background: var(--color-obsidian); color: #fff;
-      border: none; border-radius: 4px; font-size: 14px; font-weight: 600;
-      font-family: var(--font-body); letter-spacing: 1px; text-transform: uppercase;
-      cursor: pointer; transition: all 0.3s;
-    }
-    .btn-submit:hover { background: var(--color-gold); }
-    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-    .form-footer {
-      margin-top: 20px; text-align: center; font-size: 14px; color: var(--color-ash);
-    }
-    .form-footer a {
-      color: var(--color-obsidian); font-weight: 600; text-decoration: none;
-      cursor: pointer; margin-left: 4px;
-    }
-    .form-footer a:hover { color: var(--color-gold); }
-    .alert {
-      padding: 12px 16px; border-radius: 4px; font-size: 14px;
-      margin-bottom: 16px; display: none; line-height: 1.4;
-    }
-    .alert.danger { background: #FDE8E8; color: #9B1C1C; border: 1px solid #FBD5D5; display: block; }
-    .alert.success { background: #DEF7EC; color: #03543F; border: 1px solid #BCF0DA; display: block; }
-    .alert.warning { background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; display: block; }
-    .demo-accounts {
-      margin-top: 24px; padding: 16px; background: var(--color-ivory);
-      border-radius: 4px; font-size: 13px; color: var(--color-ash);
-      text-align: center; border: 1px solid var(--color-silk); line-height: 1.8;
-    }
-    .demo-accounts code {
-      background: #fff; padding: 2px 6px; border-radius: 3px;
-      color: var(--color-obsidian); font-weight: 600;
-    }
+
+    .auth-logo{font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:3px;text-align:center;margin-bottom:48px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;gap:8px}
+    .auth-logo::before{content:'';width:10px;height:10px;background:var(--accent);border-radius:2px;box-shadow:0 0 12px var(--accent-glow)}
+
+    .auth-form{display:flex;flex-direction:column;gap:18px}
+    .form-header{margin-bottom:8px}
+    .form-tag{font-family:var(--font-mono);font-size:11px;color:var(--accent-glow);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:block}
+    .form-title{font-family:var(--font-display);font-size:28px;font-weight:600;letter-spacing:-0.02em;color:#fff;margin-bottom:6px}
+    .form-subtitle{color:var(--text-secondary);font-size:14px}
+
+    .input-group{display:flex;flex-direction:column;gap:8px}
+    .input-group label{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
+    .input-group input{padding:14px 16px;background:var(--bg-elevated);border:1px solid var(--border-strong);border-radius:8px;font-family:var(--font-body);font-size:14px;outline:none;color:var(--text-primary);transition:all 0.25s}
+    .input-group input::placeholder{color:var(--text-muted)}
+    .input-group input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+    .btn-submit{margin-top:8px;padding:16px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-family:var(--font-mono);font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;box-shadow:0 4px 16px rgba(124,58,237,0.3)}
+    .btn-submit:hover{background:var(--accent-glow);transform:translateY(-1px);box-shadow:0 6px 24px rgba(124,58,237,0.5)}
+    .btn-submit:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+
+    .form-footer{margin-top:8px;text-align:center;font-size:14px;color:var(--text-secondary)}
+    .form-footer a{color:var(--accent-glow);font-weight:500;cursor:pointer;margin-left:4px}
+    .form-footer a:hover{color:#fff}
+
+    .alert{padding:12px 16px;border-radius:8px;font-size:13px;margin-bottom:16px;display:none;line-height:1.5;border:1px solid transparent}
+    .alert.danger{background:rgba(239,68,68,0.1);color:#fca5a5;border-color:rgba(239,68,68,0.3);display:block}
+    .alert.success{background:rgba(16,185,129,0.1);color:#6ee7b7;border-color:rgba(16,185,129,0.3);display:block}
+    .alert.warning{background:rgba(245,158,11,0.1);color:#fcd34d;border-color:rgba(245,158,11,0.3);display:block}
+
+    .demo-accounts{margin-top:28px;padding:18px;background:var(--bg-elevated);border:1px solid var(--border-strong);border-radius:8px;font-family:var(--font-mono);font-size:12px;color:var(--text-secondary);line-height:1.8}
+    .demo-accounts strong{color:var(--accent-glow);font-weight:600;display:block;margin-bottom:8px;font-family:var(--font-body);letter-spacing:0.5px;text-transform:uppercase;font-size:10px}
+    .demo-accounts code{background:var(--bg-base);padding:2px 8px;border-radius:4px;color:#fff;font-weight:500;font-size:11px;border:1px solid var(--border)}
   </style>
 </head>
 <body>
 
   <div class="split-left">
-    <h1>Khám Phá Phong Cách<br>& Tri Thức.</h1>
-    <p>Gia nhập không gian LUMIÈRE để tận hưởng những đặc quyền riêng biệt và trải nghiệm mua bán đẳng cấp toàn cầu.</p>
+    <div class="split-left-content">
+      <div class="left-brand">NEXUS</div>
+    </div>
+    <div class="left-hero">
+      <div class="left-eyebrow"><span class="dot"></span>AI-powered platform</div>
+      <h1>Welcome to the<br><span class="accent">future of shopping.</span></h1>
+      <p>Tham gia NEXUS để trải nghiệm mua sắm cá nhân hóa bằng AI — gợi ý theo hành vi thời gian thực, chatbot tư vấn 24/7.</p>
+      <div class="left-features">
+        <div class="left-feature"><div class="num">50k+</div><div class="label">Products</div></div>
+        <div class="left-feature"><div class="num">12k</div><div class="label">Users</div></div>
+        <div class="left-feature"><div class="num">99.9%</div><div class="label">Uptime</div></div>
+      </div>
+    </div>
   </div>
 
   <div class="split-right">
-    <div class="auth-logo" onclick="location.href='/'">LUMIÈRE</div>
+    <div class="auth-logo" onclick="location.href='/'">NEXUS</div>
 
     <div id="alert-box" class="alert"></div>
 
     <!-- LOGIN FORM -->
     <form class="auth-form" id="login-form" onsubmit="handleLogin(event)">
-      <div>
-        <h2 class="form-title">Đăng Nhập</h2>
-        <p class="form-subtitle">Chào mừng bạn quay lại không gian LUMIÈRE.</p>
+      <div class="form-header">
+        <span class="form-tag">// authenticate</span>
+        <h2 class="form-title">Sign In</h2>
+        <p class="form-subtitle">Chào mừng trở lại NEXUS.</p>
       </div>
       <div class="input-group">
-        <label>Tên đăng nhập</label>
-        <input type="text" id="log-username" placeholder="Nhập tên đăng nhập..." required autofocus>
+        <label>Username</label>
+        <input type="text" id="log-username" placeholder="Enter your username..." required autofocus>
       </div>
       <div class="input-group">
-        <label>Mật khẩu</label>
+        <label>Password</label>
         <input type="password" id="log-password" placeholder="••••••••" required>
       </div>
-      <button type="submit" class="btn-submit" id="btn-login">Đăng Nhập</button>
+      <button type="submit" class="btn-submit" id="btn-login">Sign In →</button>
       <div class="form-footer">
-        Bạn chưa có tài khoản? <a onclick="toggleMode('register')">Đăng ký mới</a>
+        Chưa có tài khoản? <a onclick="toggleMode('register')">Create account</a>
       </div>
       <div class="demo-accounts">
-        <strong>💡 Tài khoản mặc định:</strong><br>
-        <code>admin</code> / <code>admin123</code> → Nhân viên<br>
-        <code>manager</code> / <code>manager123</code> → Quản lý<br>
-        Hoặc tạo tài khoản mới bên Đăng ký
+        <strong>◆ Demo Accounts</strong>
+        <code>admin</code> / <code>admin123</code> → Staff<br>
+        <code>manager</code> / <code>manager123</code> → Manager<br>
+        Hoặc tạo tài khoản mới
       </div>
     </form>
 
     <!-- REGISTER FORM -->
-    <form class="auth-form" id="register-form" onsubmit="handleRegister(event)" style="display: none;">
-      <div>
-        <h2 class="form-title">Đăng Ký Thành Viên</h2>
-        <p class="form-subtitle">Tham gia cộng đồng tinh hoa LUMIÈRE.</p>
+    <form class="auth-form" id="register-form" onsubmit="handleRegister(event)" style="display:none;">
+      <div class="form-header">
+        <span class="form-tag">// create account</span>
+        <h2 class="form-title">Register</h2>
+        <p class="form-subtitle">Tham gia cộng đồng NEXUS.</p>
       </div>
       <div class="input-group">
-        <label>Tên đăng nhập</label>
+        <label>Username</label>
         <input type="text" id="reg-username" placeholder="Tên đăng nhập (không dấu)" required>
       </div>
       <div class="input-group">
@@ -160,22 +149,21 @@
         <input type="email" id="reg-email" placeholder="email@example.com" required>
       </div>
       <div class="input-group">
-        <label>Mật khẩu</label>
+        <label>Password</label>
         <input type="password" id="reg-password" placeholder="Ít nhất 8 ký tự" required minlength="8">
       </div>
       <div class="input-group">
-        <label>Xác nhận mật khẩu</label>
+        <label>Confirm Password</label>
         <input type="password" id="reg-password2" placeholder="Nhập lại mật khẩu" required minlength="8">
       </div>
-      <button type="submit" class="btn-submit" id="btn-register" style="background: var(--color-gold);">Tạo Tài Khoản</button>
+      <button type="submit" class="btn-submit" id="btn-register">Create Account →</button>
       <div class="form-footer">
-        Đã có tài khoản? <a onclick="toggleMode('login')">Đăng nhập ngay</a>
+        Đã có tài khoản? <a onclick="toggleMode('login')">Sign in</a>
       </div>
     </form>
   </div>
 
   <script>
-    // Get redirect URL from ?next= query string
     function getNextUrl(fallback) {
       const params = new URLSearchParams(window.location.search);
       return params.get('next') || fallback;
@@ -204,13 +192,10 @@
       else window.location.href = getNextUrl('/');
     }
 
-    // ========================
-    // LOGIN
-    // ========================
     async function handleLogin(e) {
       e.preventDefault();
       const btn = document.getElementById('btn-login');
-      btn.disabled = true; btn.textContent = 'Đang xử lý...';
+      btn.disabled = true; btn.textContent = 'Authenticating...';
 
       const username = document.getElementById('log-username').value.trim();
       const password = document.getElementById('log-password').value;
@@ -226,14 +211,12 @@
           const data = await res.json();
           const access_token = data.access || data.token || data.access_token || '';
           const refresh_token = data.refresh || data.refresh_token || '';
-          
+
           if(access_token) {
-            // Set JWT cookie — middleware sẽ đọc cookie này
             document.cookie = `access_token=${access_token}; path=/; max-age=86400; SameSite=Lax`;
             localStorage.setItem('access_token', access_token);
             if(refresh_token) localStorage.setItem('refresh_token', refresh_token);
 
-            // Parse role from JWT payload (base64)
             let role = 'customer';
             try {
               const payload = JSON.parse(atob(access_token.split('.')[1]));
@@ -245,32 +228,29 @@
             localStorage.setItem('user_role', role);
             localStorage.setItem('quystore_user', JSON.stringify({ username, role }));
 
-            showAlert('✅ Đăng nhập thành công! Đang chuyển hướng...', 'success');
+            showAlert('✓ Authentication successful. Redirecting...', 'success');
             setTimeout(() => redirectAfterAuth(role), 700);
           } else {
-             showAlert('❌ Không nhận được Access Token');
-             btn.disabled = false; btn.textContent = 'Đăng Nhập';
+            showAlert('✗ No access token received');
+            btn.disabled = false; btn.textContent = 'Sign In →';
           }
         } else {
           const err = await res.json().catch(() => ({}));
-          const msg = err.detail || 'Sai tên đăng nhập hoặc mật khẩu!';
-          showAlert('❌ ' + msg);
-          btn.disabled = false; btn.textContent = 'Đăng Nhập';
+          const msg = err.detail || 'Invalid username or password';
+          showAlert('✗ ' + msg);
+          btn.disabled = false; btn.textContent = 'Sign In →';
         }
       } catch (err) {
         console.error('Login fetch error:', err);
-        showAlert('⚠️ Không kết nối được tới Auth Service. Hãy kiểm tra Docker.', 'warning');
-        btn.disabled = false; btn.textContent = 'Đăng Nhập';
+        showAlert('⚠ Cannot connect to Auth Service. Check Docker.', 'warning');
+        btn.disabled = false; btn.textContent = 'Sign In →';
       }
     }
 
-    // ========================
-    // REGISTER
-    // ========================
     async function handleRegister(e) {
       e.preventDefault();
       const btn = document.getElementById('btn-register');
-      btn.disabled = true; btn.textContent = 'Đang xử lý...';
+      btn.disabled = true; btn.textContent = 'Creating account...';
 
       const username = document.getElementById('reg-username').value.trim();
       const email = document.getElementById('reg-email').value.trim();
@@ -278,13 +258,12 @@
       const password_confirm = document.getElementById('reg-password2').value;
 
       if (password !== password_confirm) {
-        showAlert('❌ Mật khẩu xác nhận không khớp!');
-        btn.disabled = false; btn.textContent = 'Tạo Tài Khoản';
+        showAlert('✗ Passwords do not match');
+        btn.disabled = false; btn.textContent = 'Create Account →';
         return;
       }
 
       try {
-        // Step 1: Register new account
         const regRes = await fetch('/api/auth/register/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -293,17 +272,16 @@
 
         if (!regRes.ok) {
           const err = await regRes.json().catch(() => ({}));
-          let msg = '❌ Đăng ký thất bại: ';
+          let msg = '✗ Registration failed: ';
           if (err.username) msg += err.username.join(', ');
           else if (err.password) msg += err.password.join(', ');
           else if (err.email) msg += err.email.join(', ');
           else msg += JSON.stringify(err);
           showAlert(msg);
-          btn.disabled = false; btn.textContent = 'Tạo Tài Khoản';
+          btn.disabled = false; btn.textContent = 'Create Account →';
           return;
         }
 
-        // Step 2: Auto-login to get JWT token
         const loginRes = await fetch('/api/auth/login/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -313,31 +291,31 @@
         if (loginRes.ok) {
           const data = await loginRes.json();
           const access_token = data.access || data.token || data.access_token || '';
-          
+
           if(access_token) {
-             document.cookie = `access_token=${access_token}; path=/; max-age=86400; SameSite=Lax`;
-             localStorage.setItem('access_token', access_token);
-             if(data.refresh) localStorage.setItem('refresh_token', data.refresh);
+            document.cookie = `access_token=${access_token}; path=/; max-age=86400; SameSite=Lax`;
+            localStorage.setItem('access_token', access_token);
+            if(data.refresh) localStorage.setItem('refresh_token', data.refresh);
 
-             localStorage.setItem('lumiere_uid', username);
-             localStorage.setItem('user_name', username);
-             localStorage.setItem('user_role', 'customer');
-             localStorage.setItem('quystore_user', JSON.stringify({ username, role: 'customer' }));
+            localStorage.setItem('lumiere_uid', username);
+            localStorage.setItem('user_name', username);
+            localStorage.setItem('user_role', 'customer');
+            localStorage.setItem('quystore_user', JSON.stringify({ username, role: 'customer' }));
 
-             showAlert('🎉 Tạo tài khoản và đăng nhập thành công!', 'success');
-             setTimeout(() => redirectAfterAuth('customer'), 700);
+            showAlert('✓ Account created. Redirecting...', 'success');
+            setTimeout(() => redirectAfterAuth('customer'), 700);
           } else {
-             showAlert('✅ Tài khoản đã tạo! Vui lòng đăng nhập.', 'success');
-             setTimeout(() => toggleMode('login'), 1000);
+            showAlert('✓ Account created. Please sign in.', 'success');
+            setTimeout(() => toggleMode('login'), 1000);
           }
         } else {
-          showAlert('✅ Tài khoản đã tạo! Vui lòng đăng nhập.', 'success');
+          showAlert('✓ Account created. Please sign in.', 'success');
           setTimeout(() => toggleMode('login'), 1000);
         }
       } catch (err) {
         console.error('Register fetch error:', err);
-        showAlert('⚠️ Không kết nối được Auth Service. Hãy kiểm tra Docker.', 'warning');
-        btn.disabled = false; btn.textContent = 'Tạo Tài Khoản';
+        showAlert('⚠ Cannot connect to Auth Service. Check Docker.', 'warning');
+        btn.disabled = false; btn.textContent = 'Create Account →';
       }
     }
   </script>

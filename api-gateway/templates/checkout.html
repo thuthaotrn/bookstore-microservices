@@ -1,170 +1,196 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Chốt Đơn - QuyStore</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — NEXUS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg-base:#0A0E1A;--bg-panel:#131826;--bg-elevated:#1A2030;--bg-hover:#1E2540;--border:rgba(255,255,255,0.06);--border-strong:rgba(255,255,255,0.12);--text-primary:#E4E7EC;--text-secondary:#8B92A8;--text-muted:#5A6076;--accent:#7C3AED;--accent-glow:#A78BFA;--accent-soft:rgba(124,58,237,0.12);--cyan:#06B6D4;--success:#10B981;--warning:#F59E0B;--danger:#EF4444;--font-display:'Space Grotesk',sans-serif;--font-body:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;--transition:all 0.25s cubic-bezier(0.4,0,0.2,1);--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:var(--font-body);background:var(--bg-base);color:var(--text-primary);min-height:100vh;font-size:15px;line-height:1.6}
+    h1,h2,h3,h4,h5,h6{font-family:var(--font-display);font-weight:600;color:#fff;letter-spacing:-0.02em}
+    a{text-decoration:none;color:inherit}
+    button{font-family:inherit;cursor:pointer;border:none;outline:none}
+    .container{max-width:1120px;margin:0 auto;padding:0 32px}
+
+    .nav{background:rgba(10,14,26,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:18px 0;margin-bottom:32px}
+    .nav-inner{max-width:1120px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between}
+    .nav-brand{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:2px;color:#fff;display:flex;align-items:center;gap:8px}
+    .nav-brand::before{content:'';width:10px;height:10px;background:var(--accent);border-radius:2px;box-shadow:0 0 12px var(--accent-glow)}
+    .nav-sub{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-left:16px}
+
+    .layout{display:grid;grid-template-columns:1fr 380px;gap:24px;padding-bottom:48px}
+    @media(max-width:768px){.layout{grid-template-columns:1fr}}
+
+    .card{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-bottom:20px}
+    .card-header{padding:18px 24px;border-bottom:1px solid var(--border);font-family:var(--font-mono);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-primary);display:flex;align-items:center;gap:10px}
+    .card-header .icon{width:24px;height:24px;border-radius:6px;background:var(--accent-soft);color:var(--accent-glow);display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:12px;font-weight:700}
+    .card-body{padding:24px}
+
+    .form-input{width:100%;padding:13px 16px;background:var(--bg-elevated);border:1px solid var(--border-strong);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:14px;outline:none;color:var(--text-primary)}
+    .form-input::placeholder{color:var(--text-muted)}
+    .form-input:focus{border-color:var(--accent)}
+
+    .radio-row{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--border-strong);border-radius:var(--radius-md);margin-bottom:10px;cursor:pointer;background:var(--bg-elevated);transition:var(--transition)}
+    .radio-row:hover{border-color:var(--accent-glow)}
+    .radio-row.checked{border-color:var(--accent);background:var(--accent-soft)}
+    .radio-row input[type=radio]{appearance:none;width:18px;height:18px;border:1.5px solid var(--border-strong);border-radius:50%;background:var(--bg-base);position:relative;cursor:pointer;flex-shrink:0}
+    .radio-row input[type=radio]:checked{border-color:var(--accent)}
+    .radio-row input[type=radio]:checked::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:var(--accent)}
+    .radio-row label{flex:1;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+    .radio-row label strong{display:block;font-size:14px;color:var(--text-primary);font-weight:600;margin-bottom:2px}
+    .radio-row label small{font-size:12px;color:var(--text-muted)}
+    .radio-row label .price{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--accent-glow)}
+
+    .summary{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;position:sticky;top:24px;height:fit-content}
+    .summary h5{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent-glow);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+    .summary h5::before{content:'';width:6px;height:6px;background:var(--accent-glow);border-radius:50%}
+    .summary-item{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+    .summary-item:last-of-type{border-bottom:none}
+    .summary-item h6{font-size:13px;color:var(--text-primary);font-weight:500;margin-bottom:2px}
+    .summary-item small{font-family:var(--font-mono);font-size:11px;color:var(--text-muted)}
+    .summary-item .amount{font-family:var(--font-mono);color:var(--text-secondary);font-weight:500;text-align:right;flex-shrink:0;padding-left:12px}
+    .totals{margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+    .total-line{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:var(--text-secondary)}
+    .total-line .amount{font-family:var(--font-mono);color:var(--text-primary)}
+    .total-line.discount .amount{color:var(--success)}
+    .grand-total{display:flex;justify-content:space-between;align-items:center;padding-top:14px;margin-top:8px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-primary)}
+    .grand-total .amount{font-size:22px;color:var(--accent-glow);font-weight:700}
+    .place-order-btn{width:100%;margin-top:20px;padding:16px;background:var(--accent);color:#fff;font-family:var(--font-mono);font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;border-radius:var(--radius-sm);box-shadow:0 4px 16px rgba(124,58,237,0.3);transition:var(--transition)}
+    .place-order-btn:hover{background:var(--accent-glow);transform:translateY(-1px)}
+
+    .empty-msg{padding:24px;text-align:center;color:var(--text-muted);font-family:var(--font-mono);font-size:13px}
+  </style>
 </head>
-
-<body class="bg-light">
-    <nav class="navbar navbar-dark bg-dark mb-4">
-        <div class="container"><a class="navbar-brand fw-bold" href="/"><i class="fas fa-book-open me-2"></i>QuyStore |
-                Chốt Đơn</a></div>
-    </nav>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 mb-4">
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header bg-white fw-bold"><i class="fas fa-map-marker-alt text-danger me-2"></i>1.
-                        Địa chỉ giao hàng</div>
-                    <div class="card-body">
-                        <input type="text" id="address" class="form-control"
-                            placeholder="Nhập địa chỉ nhận hàng của bạn...">
-                    </div>
-                </div>
-
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header bg-white fw-bold"><i class="fas fa-truck text-primary me-2"></i>2. Phương
-                        thức vận chuyển</div>
-                    <div class="card-body">
-                        {% for method in shipping_methods %}
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" name="shippingMethod" value="{{ method.id }}" data-fee="{{ method.fee }}" {{ forloop.first|yesno:"checked," }} onchange="updateTotal()">
-                            <label class="form-check-label d-flex justify-content-between w-100">
-                                <span><strong>{{ method.name }}</strong><br><small class="text-muted">{{ method.description }}</small></span>
-                                <span class="text-danger fw-bold">+{{ method.fee|floatformat:0 }}đ</span>
-                            </label>
-                        </div>
-                        {% empty %}
-                        <p class="text-danger">Đang lỗi kết nối hoặc Database Ship chưa có data!</p>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header bg-white fw-bold"><i class="fas fa-wallet text-success me-2"></i>3. Phương
-                        thức thanh toán</div>
-                    <div class="card-body">
-                        {% for pay in payment_methods %}
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="radio" name="paymentMethod" value="{{ pay.id }}" {{
-                                forloop.first|yesno:"checked," }}>
-                            <label class="form-check-label"><strong>{{ pay.name }}</strong></label>
-                        </div>
-                        {% empty %}
-                        <p class="text-danger">Đang lỗi kết nối hoặc Database Pay chưa có data!</p>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card shadow-sm p-4 sticky-top" style="top: 20px;">
-                    <h5 class="fw-bold mb-4">Tóm tắt đơn hàng</h5>
-                    <ul class="list-group list-group-flush mb-3">
-                        {% for item in cart_items %}
-                        <li class="list-group-item d-flex justify-content-between lh-sm px-0">
-                            <div>
-                                <h6 class="my-0">{{ item.title }}</h6><small class="text-muted">Số lượng: {{ item.quantity }}</small>
-                            </div>
-                            <span class="text-muted">{{ item.subtotal|floatformat:0 }}đ</span>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    <hr>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span class="text-muted">Tổng tiền sách:</span>
-                        <strong>{{ total_price|floatformat:0 }}đ</strong>
-                    </div>
-                    <div class="d-flex justify-content-between mb-3 border-bottom pb-3">
-                        <span class="text-muted">Phí giao hàng:</span>
-                        <strong id="shippingFeeDisplay" class="text-success">+$0.00</strong>
-                    </div>
-                    
-                    <div class="d-flex justify-content-between mb-4">
-                        <span class="fs-5 fw-bold">Tổng cộng:</span>
-                        <strong id="grandTotalDisplay" class="text-danger fs-4">{{ total_price|floatformat:0 }}đ</strong>
-                    </div>
-                    
-                    <button class="btn btn-danger w-100 py-3 fw-bold fs-5" onclick="placeOrder()">ĐẶT HÀNG</button>
-                </div>
-            </div>
-        </div>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div style="display:flex;align-items:baseline;">
+        <a href="/" class="nav-brand">NEXUS</a>
+        <span class="nav-sub">// checkout</span>
+      </div>
     </div>
+  </nav>
 
-    <script>
-        // Lấy Tổng tiền sách ban đầu từ Django truyền sang
-        const baseTotalPrice = {{ total_price|default:"0" }};
+  <div class="container">
+    <div class="layout">
+      <div>
+        <div class="card">
+          <div class="card-header"><span class="icon">1</span>Shipping Address</div>
+          <div class="card-body">
+            <input type="text" id="address" class="form-input" placeholder="Nhập địa chỉ giao hàng...">
+          </div>
+        </div>
 
-        // Hàm tính toán và cập nhật giao diện
-        function updateTotal() {
-            // Tìm cái nút Ship đang được tích chọn
-            const selectedShipping = document.querySelector('input[name="shippingMethod"]:checked');
-            
-            if (selectedShipping) {
-                // Lấy giá trị tiền Ship từ cái mác data-fee (ép kiểu về số thập phân)
-                const fee = parseFloat(selectedShipping.getAttribute('data-fee')) || 0;
-                
-                // Cộng tiền: Tổng cuối = Tiền sách + Tiền ship
-                const grandTotal = baseTotalPrice + fee;
-                
-                // Cập nhật ra màn hình UI
-                document.getElementById('shippingFeeDisplay').innerText = '+$' + fee.toFixed(2);
-                document.getElementById('grandTotalDisplay').innerText = '$' + grandTotal.toFixed(2);
-            }
-        }
+        <div class="card">
+          <div class="card-header"><span class="icon">2</span>Delivery Method</div>
+          <div class="card-body">
+            {% for method in shipping_methods %}
+            <div class="radio-row {% if forloop.first %}checked{% endif %}" onclick="this.parentNode.querySelectorAll('.radio-row').forEach(r=>r.classList.remove('checked'));this.classList.add('checked');this.querySelector('input').checked=true;updateTotal()">
+              <input type="radio" name="shippingMethod" value="{{ method.id }}" data-fee="{{ method.fee }}" {{ forloop.first|yesno:"checked," }} onchange="updateTotal()">
+              <label>
+                <span><strong>{{ method.name }}</strong><small>{{ method.description }}</small></span>
+                <span class="price">+{{ method.fee|floatformat:0 }}đ</span>
+              </label>
+            </div>
+            {% empty %}
+            <p style="color:var(--danger);font-family:var(--font-mono);font-size:12px;padding:8px 0;">// shipping service unavailable</p>
+            {% endfor %}
+          </div>
+        </div>
 
-        // Chạy hàm này 1 lần ngay khi load trang để nó cộng luôn tiền của cái Option mặc định đầu tiên
-        document.addEventListener("DOMContentLoaded", function() {
-            updateTotal();
+        <div class="card">
+          <div class="card-header"><span class="icon">3</span>Payment Method</div>
+          <div class="card-body">
+            {% for pay in payment_methods %}
+            <div class="radio-row {% if forloop.first %}checked{% endif %}" onclick="this.parentNode.querySelectorAll('.radio-row').forEach(r=>r.classList.remove('checked'));this.classList.add('checked');this.querySelector('input').checked=true">
+              <input type="radio" name="paymentMethod" value="{{ pay.id }}" {{ forloop.first|yesno:"checked," }}>
+              <label><span><strong>{{ pay.name }}</strong></span></label>
+            </div>
+            {% empty %}
+            <p style="color:var(--danger);font-family:var(--font-mono);font-size:12px;padding:8px 0;">// payment service unavailable</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="summary">
+          <h5>Order Summary</h5>
+          {% for item in cart_items %}
+          <div class="summary-item">
+            <div><h6>{{ item.title }}</h6><small>qty: {{ item.quantity }}</small></div>
+            <span class="amount">{{ item.subtotal|floatformat:0 }}đ</span>
+          </div>
+          {% empty %}
+          <div class="empty-msg">// no items in cart</div>
+          {% endfor %}
+
+          <div class="totals">
+            <div class="total-line"><span>Subtotal</span><span class="amount">{{ total_price|floatformat:0 }}đ</span></div>
+            <div class="total-line"><span>Shipping</span><span class="amount" id="shippingFeeDisplay">+0đ</span></div>
+          </div>
+          <div class="grand-total"><span>Total</span><span class="amount" id="grandTotalDisplay">{{ total_price|floatformat:0 }}đ</span></div>
+          <button class="place-order-btn" onclick="placeOrder()">Place Order →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const baseTotalPrice = {{ total_price|default:"0" }};
+
+    function formatVND(n) { return Math.round(n).toLocaleString('vi-VN') + 'đ'; }
+
+    function updateTotal() {
+      const selectedShipping = document.querySelector('input[name="shippingMethod"]:checked');
+      if (selectedShipping) {
+        const fee = parseFloat(selectedShipping.getAttribute('data-fee')) || 0;
+        const grandTotal = baseTotalPrice + fee;
+        document.getElementById('shippingFeeDisplay').innerText = '+' + formatVND(fee);
+        document.getElementById('grandTotalDisplay').innerText = formatVND(grandTotal);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() { updateTotal(); });
+
+    async function placeOrder() {
+      const address = document.getElementById('address').value;
+      if (!address) { alert("⚠ Vui lòng nhập địa chỉ giao hàng!"); return; }
+
+      const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked')?.value;
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+
+      if (!shippingMethod || !paymentMethod) { alert("⚠ Vui lòng chọn phương thức vận chuyển và thanh toán!"); return; }
+
+      const orderPayload = {
+        customer_id: 1,
+        address: address,
+        shipping_method_id: parseInt(shippingMethod),
+        payment_method_id: parseInt(paymentMethod)
+      };
+
+      try {
+        const res = await fetch('/api/order/orders/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderPayload)
         });
-        async function placeOrder() {
-            // 1. Lấy dữ liệu từ Form
-            const address = document.getElementById('address').value;
-            if (!address) {
-                alert("⚠️ Khoan Sếp ơi! Chưa nhập địa chỉ giao hàng kìa!");
-                return;
-            }
 
-            const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked')?.value;
-            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
-
-            if (!shippingMethod || !paymentMethod) {
-                alert("⚠️ Vui lòng chọn Phương thức Vận chuyển và Thanh toán!");
-                return;
-            }
-
-            // 2. Đóng gói Data
-            const orderPayload = {
-                customer_id: 1, // Fix cứng khách số 1
-                address: address,
-                shipping_method_id: parseInt(shippingMethod),
-                payment_method_id: parseInt(paymentMethod)
-            };
-
-            // 3. Ném sang Order Service qua đường hầm Cỗ Máy Vạn Năng
-            try {
-                const res = await fetch('/api/order/orders/', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(orderPayload)
-                });
-
-                if (res.ok || res.status === 201) {
-                    alert("🎉 CHỐT ĐƠN THÀNH CÔNG! Sách đang được lên đường!");
-                    window.location.href = "/"; // Đá về trang chủ
-                } else {
-                    const err = await res.json();
-                    alert("❌ Lỗi từ Order Service: " + JSON.stringify(err));
-                }
-            } catch (e) {
-                alert("⚠️ Lỗi kết nối đến Order Service (Sập nguồn)!");
-            }
+        if (res.ok || res.status === 201) {
+          alert("✓ Order placed successfully!");
+          window.location.href = "/";
+        } else {
+          const err = await res.json();
+          alert("✗ Order Service error: " + JSON.stringify(err));
         }
-    </script>
+      } catch (e) {
+        alert("⚠ Connection error to Order Service");
+      }
+    }
+  </script>
 </body>
-
 </html>

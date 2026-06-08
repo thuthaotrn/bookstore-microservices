@@ -1,505 +1,302 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manager Dashboard - QuyStore</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manager HQ — NEXUS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root{--bg-base:#0A0E1A;--bg-panel:#131826;--bg-elevated:#1A2030;--bg-hover:#1E2540;--border:rgba(255,255,255,0.06);--border-strong:rgba(255,255,255,0.12);--text-primary:#E4E7EC;--text-secondary:#8B92A8;--text-muted:#5A6076;--accent:#7C3AED;--accent-glow:#A78BFA;--accent-soft:rgba(124,58,237,0.12);--cyan:#06B6D4;--success:#10B981;--warning:#F59E0B;--danger:#EF4444;--font-display:'Space Grotesk',sans-serif;--font-body:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;--transition:all 0.25s cubic-bezier(0.4,0,0.2,1);--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg-base);font-family:var(--font-body);color:var(--text-primary);min-height:100vh;font-size:14px;line-height:1.6;display:flex}
+    h1,h2,h3,h4,h5{font-family:var(--font-display);font-weight:600;color:#fff;letter-spacing:-0.02em}
+    a{color:inherit;text-decoration:none;transition:var(--transition)}
+    button{cursor:pointer;font-family:inherit;border:none;outline:none;transition:var(--transition)}
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* SIDEBAR */
+    .sidebar{width:260px;min-height:100vh;background:var(--bg-panel);border-right:1px solid var(--border);position:sticky;top:0;flex-shrink:0;display:flex;flex-direction:column;align-self:stretch}
+    .sidebar-brand{padding:24px;border-bottom:1px solid var(--border)}
+    .sidebar-brand h3{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:2px;color:#fff;display:flex;align-items:center;gap:10px}
+    .sidebar-brand h3::before{content:'';width:10px;height:10px;background:var(--accent);border-radius:2px;box-shadow:0 0 12px var(--accent-glow)}
+    .sidebar-brand small{display:block;font-family:var(--font-mono);font-size:10px;color:var(--accent-glow);text-transform:uppercase;letter-spacing:1.5px;margin-top:6px;margin-left:20px}
+    .nav-section{padding:20px 12px;flex:1}
+    .nav-section-label{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);padding:0 12px;margin-bottom:8px}
+    .nav-item-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:var(--text-secondary);font-size:13px;font-weight:500;margin-bottom:2px;position:relative}
+    .nav-item-link:hover{background:var(--bg-hover);color:var(--text-primary)}
+    .nav-item-link.active{background:var(--accent-soft);color:var(--accent-glow)}
+    .nav-item-link.active::before{content:'';width:3px;height:18px;background:var(--accent);border-radius:0 3px 3px 0;position:absolute;left:0}
+    .nav-item-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
 
-        body {
-            background: #0f1117;
-            font-family: 'Inter', sans-serif;
-            color: #e0e0e0;
-            min-height: 100vh;
-        }
+    .sidebar-footer{padding:16px 12px;border-top:1px solid var(--border)}
+    .sidebar-footer .user-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:8px}
+    .sidebar-footer .user-avatar{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--cyan));border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;color:#fff;font-size:14px}
+    .sidebar-footer .user-name{color:var(--text-primary);font-size:13px;font-weight:600}
+    .sidebar-footer .user-role{font-family:var(--font-mono);color:var(--text-muted);font-size:10px;text-transform:uppercase;letter-spacing:0.5px}
+    .sidebar-footer .logout-btn{display:flex;align-items:center;gap:8px;width:100%;padding:10px 12px;background:transparent;color:var(--text-secondary);border:1px solid var(--border-strong);border-radius:8px;font-family:var(--font-mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+    .sidebar-footer .logout-btn:hover{border-color:var(--danger);color:var(--danger)}
+    .sidebar-footer .logout-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
 
-        /* ========== SIDEBAR ========== */
-        .sidebar {
-            width: 260px;
-            min-height: 100vh;
-            background: #16191f;
-            border-right: 1px solid rgba(255,255,255,0.06);
-            position: sticky;
-            top: 0;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-        }
+    /* CONTENT */
+    .content-area{flex:1;padding:36px;overflow-x:hidden;min-width:0}
+    .page-header{margin-bottom:32px}
+    .page-header .lead{font-family:var(--font-mono);font-size:11px;color:var(--accent-glow);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+    .page-header h1{font-size:clamp(28px,3vw,36px);letter-spacing:-0.03em;margin-bottom:6px}
+    .page-header p{color:var(--text-secondary);font-size:14px}
 
-        .sidebar-brand {
-            padding: 28px 24px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
+    /* GRID */
+    .row{display:grid;gap:16px}
+    .row.kpi-grid{grid-template-columns:repeat(4,1fr);margin-bottom:24px}
+    .row.main-grid{grid-template-columns:5fr 7fr}
+    @media(max-width:1024px){.row.kpi-grid{grid-template-columns:repeat(2,1fr)}.row.main-grid{grid-template-columns:1fr}}
+    @media(max-width:640px){.row.kpi-grid{grid-template-columns:1fr}}
 
-        .sidebar-brand h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #fff;
-            margin: 0;
-        }
+    /* KPI CARDS */
+    .kpi-card{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;position:relative;overflow:hidden;transition:var(--transition)}
+    .kpi-card:hover{transform:translateY(-3px);border-color:var(--border-strong)}
+    .kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0}
+    .kpi-card.revenue::before{background:linear-gradient(90deg,var(--accent),var(--accent-glow))}
+    .kpi-card.total::before{background:linear-gradient(90deg,var(--cyan),#0891B2)}
+    .kpi-card.pending::before{background:linear-gradient(90deg,var(--danger),var(--warning))}
+    .kpi-card.done::before{background:linear-gradient(90deg,var(--success),#34D399)}
 
-        .sidebar-brand small { color: #666; font-size: 0.72rem; }
+    .kpi-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px}
+    .kpi-card.revenue .kpi-icon{background:var(--accent-soft);color:var(--accent-glow)}
+    .kpi-card.total .kpi-icon{background:rgba(6,182,212,0.12);color:var(--cyan)}
+    .kpi-card.pending .kpi-icon{background:rgba(239,68,68,0.12);color:var(--danger)}
+    .kpi-card.done .kpi-icon{background:rgba(16,185,129,0.12);color:var(--success)}
 
-        .nav-section { padding: 20px 12px; flex: 1; }
-        .nav-section-label {
-            font-size: 0.68rem;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #444;
-            padding: 0 8px;
-            margin-bottom: 8px;
-        }
+    .kpi-value{font-family:var(--font-mono);font-size:30px;font-weight:700;color:#fff;line-height:1;margin-bottom:8px}
+    .kpi-label{font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px}
+    .kpi-sub{font-size:12px;color:var(--text-muted);margin-top:6px}
 
-        .nav-item-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 8px;
-            color: #888;
-            font-size: 0.875rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.15s;
-            margin-bottom: 2px;
-        }
+    /* PANEL */
+    .panel{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;height:100%}
+    .panel-header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .panel-header h5{font-size:14px;font-weight:600}
+    .panel-header h5 .icon{color:var(--accent-glow);margin-right:8px}
+    .panel-header span{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px}
 
-        .nav-item-link:hover { background: rgba(255,255,255,0.05); color: #ccc; }
-        .nav-item-link.active {
-            background: linear-gradient(90deg, rgba(251,191,36,0.15), rgba(251,191,36,0.05));
-            color: #fbbf24;
-            border-left: 2px solid #fbbf24;
-        }
+    /* CHART */
+    .chart-wrapper{padding:24px;display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap}
+    .chart-canvas-wrap{position:relative;width:200px;height:200px;flex-shrink:0}
+    .chart-legend{flex:1;min-width:180px}
+    .legend-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+    .legend-item:last-child{border-bottom:none}
+    .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+    .legend-name{font-size:13px;color:var(--text-secondary);flex:1}
+    .legend-count{font-family:var(--font-mono);font-size:13px;font-weight:700;color:#fff}
+    .legend-pct{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-left:4px}
 
-        .nav-item-link i { width: 16px; text-align: center; }
+    /* TABLE */
+    .dark-table{width:100%;border-collapse:collapse}
+    .dark-table thead th{padding:14px 24px;font-family:var(--font-mono);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);background:var(--bg-elevated);border-bottom:1px solid var(--border);text-align:left}
+    .dark-table tbody td{padding:16px 24px;font-size:13px;color:var(--text-secondary);border-bottom:1px solid var(--border);vertical-align:middle}
+    .dark-table tbody tr:hover td{background:var(--bg-hover)}
+    .dark-table tbody tr:last-child td{border-bottom:none}
 
-        .sidebar-footer {
-            padding: 16px 12px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-        }
+    .order-id{font-family:var(--font-mono);font-weight:600;color:var(--accent-glow)}
+    .revenue-big{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--accent-glow)}
 
-        /* ========== CONTENT ========== */
-        .content-area { flex: 1; padding: 36px; overflow-x: hidden; }
+    .s-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:50px;font-family:var(--font-mono);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;border:1px solid transparent}
+    .s-pending{background:rgba(245,158,11,0.12);color:var(--warning);border-color:rgba(245,158,11,0.3)}
+    .s-approved{background:rgba(16,185,129,0.12);color:var(--success);border-color:rgba(16,185,129,0.3)}
+    .s-shipping{background:rgba(6,182,212,0.12);color:var(--cyan);border-color:rgba(6,182,212,0.3)}
+    .s-delivered{background:rgba(16,185,129,0.15);color:var(--success);border-color:rgba(16,185,129,0.4)}
+    .s-cancelled{background:rgba(239,68,68,0.12);color:var(--danger);border-color:rgba(239,68,68,0.3)}
+    .s-default{background:var(--bg-elevated);color:var(--text-secondary);border-color:var(--border-strong)}
 
-        .page-header { margin-bottom: 32px; }
-        .page-header h1 {
-            font-size: 1.65rem;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 4px;
-        }
+    .empty-row{text-align:center;padding:48px;color:var(--text-muted);font-family:var(--font-mono);font-size:13px}
+    .empty-row .icon{font-size:32px;display:block;margin-bottom:8px;color:var(--text-muted)}
 
-        .page-header p { color: #555; font-size: 0.875rem; }
-
-        /* ========== KPI CARDS ========== */
-        .kpi-card {
-            background: #16191f;
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 16px;
-            padding: 24px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .kpi-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255,255,255,0.15);
-        }
-
-        .kpi-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            border-radius: 16px 16px 0 0;
-        }
-
-        .kpi-card.revenue::before  { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
-        .kpi-card.total::before    { background: linear-gradient(90deg, #3b82f6, #6366f1); }
-        .kpi-card.pending::before  { background: linear-gradient(90deg, #ef4444, #f97316); }
-        .kpi-card.done::before     { background: linear-gradient(90deg, #10b981, #34d399); }
-
-        .kpi-icon {
-            width: 44px; height: 44px;
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem;
-            margin-bottom: 16px;
-        }
-
-        .kpi-card.revenue .kpi-icon  { background: rgba(251,191,36,0.12); color: #fbbf24; }
-        .kpi-card.total .kpi-icon    { background: rgba(59,130,246,0.12); color: #3b82f6; }
-        .kpi-card.pending .kpi-icon  { background: rgba(239,68,68,0.12);  color: #ef4444; }
-        .kpi-card.done .kpi-icon     { background: rgba(16,185,129,0.12); color: #10b981; }
-
-        .kpi-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #fff;
-            line-height: 1;
-            margin-bottom: 6px;
-        }
-
-        .kpi-label {
-            font-size: 0.78rem;
-            font-weight: 500;
-            color: #555;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .kpi-sub {
-            font-size: 0.75rem;
-            color: #444;
-            margin-top: 6px;
-        }
-
-        /* ========== PANEL ========== */
-        .panel {
-            background: #16191f;
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 16px;
-            overflow: hidden;
-        }
-
-        .panel-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .panel-header h5 {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: #fff;
-            margin: 0;
-        }
-
-        .panel-header span {
-            font-size: 0.78rem;
-            color: #555;
-        }
-
-        /* ========== CHART ========== */
-        .chart-wrapper {
-            padding: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 36px;
-            flex-wrap: wrap;
-        }
-
-        .chart-canvas-wrap {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            flex-shrink: 0;
-        }
-
-        .chart-legend { flex: 1; min-width: 160px; }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-        }
-
-        .legend-item:last-child { border-bottom: none; }
-
-        .legend-dot {
-            width: 10px; height: 10px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .legend-name { font-size: 0.83rem; color: #aaa; flex: 1; }
-        .legend-count { font-size: 0.83rem; font-weight: 700; color: #fff; }
-        .legend-pct { font-size: 0.72rem; color: #555; margin-left: 4px; }
-
-        /* ========== TABLE ========== */
-        .dark-table { width: 100%; border-collapse: collapse; }
-        .dark-table thead th {
-            padding: 12px 24px;
-            font-size: 0.72rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #555;
-            background: #0f1117;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .dark-table tbody td {
-            padding: 14px 24px;
-            font-size: 0.875rem;
-            color: #ccc;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            vertical-align: middle;
-        }
-
-        .dark-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
-        .dark-table tbody tr:last-child td { border-bottom: none; }
-
-        /* Status pills */
-        .s-pill {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .s-pending   { background: rgba(251,191,36,0.12);  color: #fbbf24; }
-        .s-approved  { background: rgba(16,185,129,0.12);  color: #10b981; }
-        .s-shipping  { background: rgba(59,130,246,0.12);  color: #60a5fa; }
-        .s-delivered { background: rgba(52,211,153,0.12);  color: #34d399; }
-        .s-cancelled { background: rgba(239,68,68,0.12);   color: #f87171; }
-        .s-default   { background: rgba(156,163,175,0.12); color: #9ca3af; }
-
-        /* ========== MISC ========== */
-        .revenue-big {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #fbbf24;
-        }
-
-        .order-id { font-weight: 700; color: #6366f1; }
-    </style>
+    .customer-cell{display:flex;align-items:center;gap:10px}
+    .customer-cell .avatar-sm{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--cyan));border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:11px;font-weight:700;color:#fff}
+    .customer-cell .cust-name{color:var(--text-secondary)}
+  </style>
 </head>
 
 <body>
-<div class="d-flex">
-
-    <!-- ===== SIDEBAR ===== -->
-    <div class="sidebar">
-        <div class="sidebar-brand">
-            <h3><i class="fas fa-chart-line me-2" style="color:#fbbf24"></i>Manager HQ</h3>
-            <small>QuyStore Analytics</small>
-        </div>
-
-        <div class="nav-section">
-            <div class="nav-section-label">Báo cáo</div>
-            <a href="/manager/" class="nav-item-link active">
-                <i class="fas fa-tachometer-alt"></i> Tổng quan KPI
-            </a>
-            <a href="/staff/" class="nav-item-link">
-                <i class="fas fa-users-cog"></i> Nhân viên & Kho
-            </a>
-            <a href="/" class="nav-item-link">
-                <i class="fas fa-store"></i> Cửa hàng
-            </a>
-        </div>
-
-        <div class="sidebar-footer">
-            <div class="d-flex align-items-center mb-3" style="gap:10px;padding:0 4px;">
-                <div style="width:36px;height:36px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#000;font-size:0.9rem;">M</div>
-                <div>
-                    <div style="color:#fff;font-size:0.875rem;font-weight:600;">Manager</div>
-                    <div style="color:#555;font-size:0.72rem;">Cấp quản lý</div>
-                </div>
-            </div>
-            <a href="/login/" class="btn w-100" style="background:rgba(255,255,255,0.05);color:#888;border:1px solid rgba(255,255,255,0.08);border-radius:8px;font-size:0.8rem;">
-                <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
-            </a>
-        </div>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <h3>Manager HQ</h3>
+      <small>// analytics console</small>
     </div>
 
-    <!-- ===== CONTENT ===== -->
-    <div class="content-area">
+    <div class="nav-section">
+      <div class="nav-section-label">Reports</div>
+      <a href="/manager/" class="nav-item-link active">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        KPI Overview
+      </a>
+      <a href="/staff/" class="nav-item-link">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        Staff & Inventory
+      </a>
+      <a href="/" class="nav-item-link">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+        Storefront
+      </a>
+    </div>
 
-        <!-- Header -->
-        <div class="page-header">
-            <h1>📊 Bảng điều khiển KPI</h1>
-            <p>Dữ liệu cập nhật từ hệ thống — QuyStore Analytics</p>
+    <div class="sidebar-footer">
+      <div class="user-row">
+        <div class="user-avatar">M</div>
+        <div>
+          <div class="user-name">Manager</div>
+          <div class="user-role">Admin</div>
         </div>
+      </div>
+      <a href="/auth/" class="logout-btn">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign out
+      </a>
+    </div>
+  </div>
 
-        <!-- ===== KPI CARDS ===== -->
-        <div class="row g-3 mb-4">
-            <div class="col-12 col-sm-6 col-xl-3">
-                <div class="kpi-card revenue">
-                    <div class="kpi-icon"><i class="fas fa-dollar-sign"></i></div>
-                    <div class="kpi-value">{{ total_revenue|floatformat:0 }}đ</div>
-                    <div class="kpi-label">Tổng Doanh Thu</div>
-                    <div class="kpi-sub">Cộng dồn từ {{ total_orders }} đơn hàng</div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-xl-3">
-                <div class="kpi-card total">
-                    <div class="kpi-icon"><i class="fas fa-shopping-cart"></i></div>
-                    <div class="kpi-value">{{ total_orders }}</div>
-                    <div class="kpi-label">Tổng Đơn Hàng</div>
-                    <div class="kpi-sub">{{ delivered_orders }} đã giao thành công</div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-xl-3">
-                <div class="kpi-card pending">
-                    <div class="kpi-icon"><i class="fas fa-exclamation-triangle"></i></div>
-                    <div class="kpi-value">{{ pending_orders }}</div>
-                    <div class="kpi-label">Đơn Tồn Đọng</div>
-                    <div class="kpi-sub">Cần nhân viên xử lý gấp!</div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-xl-3">
-                <div class="kpi-card done">
-                    <div class="kpi-icon"><i class="fas fa-check-double"></i></div>
-                    <div class="kpi-value">{{ delivered_orders }}</div>
-                    <div class="kpi-label">Đơn Hoàn Thành</div>
-                    <div class="kpi-sub">{{ cancelled_orders }} đã bị hủy</div>
-                </div>
-            </div>
+  <!-- CONTENT -->
+  <div class="content-area">
+    <div class="page-header">
+      <div class="lead">// real-time analytics</div>
+      <h1>KPI Dashboard</h1>
+      <p>System metrics powered by NEXUS Analytics</p>
+    </div>
+
+    <!-- KPI CARDS -->
+    <div class="row kpi-grid">
+      <div class="kpi-card revenue">
+        <div class="kpi-icon">$</div>
+        <div class="kpi-value">{{ total_revenue|floatformat:0 }}₫</div>
+        <div class="kpi-label">Total Revenue</div>
+        <div class="kpi-sub">From {{ total_orders }} orders</div>
+      </div>
+      <div class="kpi-card total">
+        <div class="kpi-icon">▦</div>
+        <div class="kpi-value">{{ total_orders }}</div>
+        <div class="kpi-label">Total Orders</div>
+        <div class="kpi-sub">{{ delivered_orders }} delivered</div>
+      </div>
+      <div class="kpi-card pending">
+        <div class="kpi-icon">!</div>
+        <div class="kpi-value">{{ pending_orders }}</div>
+        <div class="kpi-label">Pending Orders</div>
+        <div class="kpi-sub">Needs staff attention</div>
+      </div>
+      <div class="kpi-card done">
+        <div class="kpi-icon">✓</div>
+        <div class="kpi-value">{{ delivered_orders }}</div>
+        <div class="kpi-label">Completed</div>
+        <div class="kpi-sub">{{ cancelled_orders }} cancelled</div>
+      </div>
+    </div>
+
+    <!-- ROW 2 -->
+    <div class="row main-grid">
+      <!-- Pie -->
+      <div class="panel">
+        <div class="panel-header">
+          <h5><span class="icon">◐</span>Status Breakdown</h5>
+          <span>{{ total_orders }} orders</span>
         </div>
-
-        <!-- ===== ROW 2: Chart + Recent Orders ===== -->
-        <div class="row g-3">
-
-            <!-- Pie Chart -->
-            <div class="col-12 col-lg-5">
-                <div class="panel h-100">
-                    <div class="panel-header">
-                        <h5><i class="fas fa-chart-pie me-2" style="color:#fbbf24"></i>Phân tích Trạng thái</h5>
-                        <span>{{ total_orders }} đơn</span>
-                    </div>
-                    <div class="chart-wrapper">
-                        <div class="chart-canvas-wrap">
-                            <canvas id="statusPieChart"></canvas>
-                        </div>
-                        <div class="chart-legend">
-                            {% if pending_orders %}
-                            <div class="legend-item">
-                                <div class="legend-dot" style="background:#fbbf24"></div>
-                                <span class="legend-name">⏳ Chờ xử lý</span>
-                                <span class="legend-count">{{ pending_orders }}</span>
-                                {% if total_orders %}<span class="legend-pct">({% widthratio pending_orders total_orders 100 %}%)</span>{% endif %}
-                            </div>
-                            {% endif %}
-                            {% if approved_orders %}
-                            <div class="legend-item">
-                                <div class="legend-dot" style="background:#10b981"></div>
-                                <span class="legend-name">✅ Đã duyệt</span>
-                                <span class="legend-count">{{ approved_orders }}</span>
-                                {% if total_orders %}<span class="legend-pct">({% widthratio approved_orders total_orders 100 %}%)</span>{% endif %}
-                            </div>
-                            {% endif %}
-                            {% if shipping_orders %}
-                            <div class="legend-item">
-                                <div class="legend-dot" style="background:#3b82f6"></div>
-                                <span class="legend-name">🚚 Đang giao</span>
-                                <span class="legend-count">{{ shipping_orders }}</span>
-                                {% if total_orders %}<span class="legend-pct">({% widthratio shipping_orders total_orders 100 %}%)</span>{% endif %}
-                            </div>
-                            {% endif %}
-                            {% if delivered_orders %}
-                            <div class="legend-item">
-                                <div class="legend-dot" style="background:#34d399"></div>
-                                <span class="legend-name">🎉 Đã giao</span>
-                                <span class="legend-count">{{ delivered_orders }}</span>
-                                {% if total_orders %}<span class="legend-pct">({% widthratio delivered_orders total_orders 100 %}%)</span>{% endif %}
-                            </div>
-                            {% endif %}
-                            {% if cancelled_orders %}
-                            <div class="legend-item">
-                                <div class="legend-dot" style="background:#ef4444"></div>
-                                <span class="legend-name">❌ Đã hủy</span>
-                                <span class="legend-count">{{ cancelled_orders }}</span>
-                                {% if total_orders %}<span class="legend-pct">({% widthratio cancelled_orders total_orders 100 %}%)</span>{% endif %}
-                            </div>
-                            {% endif %}
-                            {% if not total_orders %}
-                            <p style="color:#555;font-size:0.8rem;text-align:center;padding:20px 0;">Chưa có dữ liệu đơn hàng</p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
+        <div class="chart-wrapper">
+          <div class="chart-canvas-wrap"><canvas id="statusPieChart"></canvas></div>
+          <div class="chart-legend">
+            {% if pending_orders %}
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#F59E0B"></div>
+              <span class="legend-name">Pending</span>
+              <span class="legend-count">{{ pending_orders }}</span>
+              {% if total_orders %}<span class="legend-pct">{% widthratio pending_orders total_orders 100 %}%</span>{% endif %}
             </div>
-
-            <!-- Recent Orders Table -->
-            <div class="col-12 col-lg-7">
-                <div class="panel h-100">
-                    <div class="panel-header">
-                        <h5><i class="fas fa-receipt me-2" style="color:#6366f1"></i>Sao kê Giao dịch gần nhất</h5>
-                        <span>10 đơn mới nhất</span>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="dark-table">
-                            <thead>
-                                <tr>
-                                    <th>Mã đơn</th>
-                                    <th>Khách hàng</th>
-                                    <th>Doanh thu</th>
-                                    <th>Phương thức</th>
-                                    <th>Trạng thái</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for order in recent_orders %}
-                                <tr>
-                                    <td><span class="order-id">#{{ order.id }}</span></td>
-                                    <td>
-                                        <div style="display:flex;align-items:center;gap:8px;">
-                                            <div style="width:28px;height:28px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#fff;">{{ order.customer_id }}</div>
-                                            <span style="color:#888">KH_{{ order.customer_id }}</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="revenue-big">{{ order.total_price|floatformat:0 }}đ</span></td>
-                                    <td>
-                                        {% if order.payment_method_id == 1 %}
-                                        <span style="color:#888;font-size:0.8rem;"><i class="fas fa-money-bill-wave me-1" style="color:#10b981"></i>COD</span>
-                                        {% else %}
-                                        <span style="color:#888;font-size:0.8rem;"><i class="fas fa-credit-card me-1" style="color:#3b82f6"></i>PM #{{ order.payment_method_id }}</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if order.status == 'PENDING' %}
-                                            <span class="s-pill s-pending">⏳ Chờ xử lý</span>
-                                        {% elif order.status == 'APPROVED' %}
-                                            <span class="s-pill s-approved">✅ Đã duyệt</span>
-                                        {% elif order.status == 'PAID_AND_SHIPPING' %}
-                                            <span class="s-pill s-shipping">🚚 Đang giao</span>
-                                        {% elif order.status == 'DELIVERED' %}
-                                            <span class="s-pill s-delivered">🎉 Đã giao</span>
-                                        {% elif order.status == 'CANCELLED' %}
-                                            <span class="s-pill s-cancelled">❌ Đã hủy</span>
-                                        {% else %}
-                                            <span class="s-pill s-default">{{ order.status }}</span>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="5" style="text-align:center;padding:48px;color:#444;">
-                                        <i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:8px;"></i>
-                                        Chưa có giao dịch nào
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            {% endif %}
+            {% if approved_orders %}
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#10B981"></div>
+              <span class="legend-name">Approved</span>
+              <span class="legend-count">{{ approved_orders }}</span>
+              {% if total_orders %}<span class="legend-pct">{% widthratio approved_orders total_orders 100 %}%</span>{% endif %}
             </div>
+            {% endif %}
+            {% if shipping_orders %}
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#06B6D4"></div>
+              <span class="legend-name">Shipping</span>
+              <span class="legend-count">{{ shipping_orders }}</span>
+              {% if total_orders %}<span class="legend-pct">{% widthratio shipping_orders total_orders 100 %}%</span>{% endif %}
+            </div>
+            {% endif %}
+            {% if delivered_orders %}
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#7C3AED"></div>
+              <span class="legend-name">Delivered</span>
+              <span class="legend-count">{{ delivered_orders }}</span>
+              {% if total_orders %}<span class="legend-pct">{% widthratio delivered_orders total_orders 100 %}%</span>{% endif %}
+            </div>
+            {% endif %}
+            {% if cancelled_orders %}
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#EF4444"></div>
+              <span class="legend-name">Cancelled</span>
+              <span class="legend-count">{{ cancelled_orders }}</span>
+              {% if total_orders %}<span class="legend-pct">{% widthratio cancelled_orders total_orders 100 %}%</span>{% endif %}
+            </div>
+            {% endif %}
+            {% if not total_orders %}
+            <p style="color:var(--text-muted);font-family:var(--font-mono);font-size:12px;text-align:center;padding:20px 0">// no order data</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
 
-        </div><!-- end row -->
+      <!-- Recent Orders -->
+      <div class="panel">
+        <div class="panel-header">
+          <h5><span class="icon">▦</span>Recent Transactions</h5>
+          <span>last 10</span>
+        </div>
+        <table class="dark-table">
+          <thead>
+            <tr><th>Order</th><th>Customer</th><th>Revenue</th><th>Payment</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            {% for order in recent_orders %}
+            <tr>
+              <td><span class="order-id">#{{ order.id }}</span></td>
+              <td>
+                <div class="customer-cell">
+                  <div class="avatar-sm">{{ order.customer_id }}</div>
+                  <span class="cust-name">User_{{ order.customer_id }}</span>
+                </div>
+              </td>
+              <td><span class="revenue-big">{{ order.total_price|floatformat:0 }}₫</span></td>
+              <td>
+                {% if order.payment_method_id == 1 %}
+                <span style="color:var(--text-secondary);font-size:12px;font-family:var(--font-mono)">COD</span>
+                {% else %}
+                <span style="color:var(--text-secondary);font-size:12px;font-family:var(--font-mono)">PM #{{ order.payment_method_id }}</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if order.status == 'PENDING' %}<span class="s-pill s-pending">Pending</span>
+                {% elif order.status == 'APPROVED' %}<span class="s-pill s-approved">Approved</span>
+                {% elif order.status == 'PAID_AND_SHIPPING' %}<span class="s-pill s-shipping">Shipping</span>
+                {% elif order.status == 'DELIVERED' %}<span class="s-pill s-delivered">Delivered</span>
+                {% elif order.status == 'CANCELLED' %}<span class="s-pill s-cancelled">Cancelled</span>
+                {% else %}<span class="s-pill s-default">{{ order.status }}</span>{% endif %}
+              </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5"><div class="empty-row"><span class="icon">▢</span>// no transactions</div></td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
-    </div><!-- end content-area -->
-</div><!-- end d-flex -->
-
-<!-- ===== CHART.JS SCRIPT ===== -->
-<script>
+  <script>
     const pending   = {{ pending_orders }};
     const approved  = {{ approved_orders }};
     const shipping  = {{ shipping_orders }};
@@ -509,92 +306,47 @@
     const labels  = [];
     const data    = [];
     const colors  = [];
-    const borderC = [];
 
     const statusDef = [
-        { label: '⏳ Chờ xử lý',  value: pending,   color: '#fbbf24', border: '#d97706' },
-        { label: '✅ Đã duyệt',    value: approved,  color: '#10b981', border: '#059669' },
-        { label: '🚚 Đang giao',   value: shipping,  color: '#3b82f6', border: '#1d4ed8' },
-        { label: '🎉 Đã giao',     value: delivered, color: '#34d399', border: '#10b981' },
-        { label: '❌ Đã hủy',      value: cancelled, color: '#ef4444', border: '#b91c1c' },
+      { label: 'Pending',   value: pending,   color: '#F59E0B' },
+      { label: 'Approved',  value: approved,  color: '#10B981' },
+      { label: 'Shipping',  value: shipping,  color: '#06B6D4' },
+      { label: 'Delivered', value: delivered, color: '#7C3AED' },
+      { label: 'Cancelled', value: cancelled, color: '#EF4444' },
     ];
 
     statusDef.forEach(s => {
-        if (s.value > 0) {
-            labels.push(s.label);
-            data.push(s.value);
-            colors.push(s.color);
-            borderC.push(s.border);
-        }
+      if (s.value > 0) {
+        labels.push(s.label);
+        data.push(s.value);
+        colors.push(s.color);
+      }
     });
 
     const ctx = document.getElementById('statusPieChart').getContext('2d');
 
     if (data.length > 0) {
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: data,
-                    backgroundColor: colors,
-                    borderColor: borderC,
-                    borderWidth: 2,
-                    hoverOffset: 12,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                cutout: '68%',
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        backgroundColor: '#1e2130',
-                        titleColor: '#fff',
-                        bodyColor: '#aaa',
-                        borderColor: 'rgba(255,255,255,0.1)',
-                        borderWidth: 1,
-                        padding: 12,
-                        callbacks: {
-                            label: function(ctx) {
-                                const total = ctx.dataset.data.reduce((a,b) => a+b, 0);
-                                const pct = ((ctx.raw / total) * 100).toFixed(1);
-                                return `  ${ctx.raw} đơn (${pct}%)`;
-                            }
-                        }
-                    }
-                },
-                animation: {
-                    animateRotate: true,
-                    duration: 900,
-                    easing: 'easeOutQuart',
-                }
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: { labels: labels, datasets: [{ data: data, backgroundColor: colors, borderColor: '#131826', borderWidth: 3, hoverOffset: 12 }] },
+        options: {
+          responsive: true, maintainAspectRatio: true, cutout: '68%',
+          plugins: {
+            legend: { display: false },
+            tooltip: { backgroundColor: '#1A2030', titleColor: '#fff', bodyColor: '#E4E7EC', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, padding: 12,
+              callbacks: { label: function(ctx) { const total = ctx.dataset.data.reduce((a,b) => a+b, 0); const pct = ((ctx.raw / total) * 100).toFixed(1); return `  ${ctx.raw} orders (${pct}%)`; } }
             }
-        });
+          },
+          animation: { animateRotate: true, duration: 900, easing: 'easeOutQuart' }
+        }
+      });
     } else {
-        // Vẽ vòng tròn placeholder nếu chưa có data
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Chưa có dữ liệu'],
-                datasets: [{
-                    data: [1],
-                    backgroundColor: ['#222'],
-                    borderColor: ['#333'],
-                    borderWidth: 2,
-                }]
-            },
-            options: {
-                responsive: true,
-                cutout: '68%',
-                plugins: {
-                    legend: { display: false },
-                    tooltip: { enabled: false }
-                }
-            }
-        });
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: { labels: ['No data'], datasets: [{ data: [1], backgroundColor: ['#1A2030'], borderColor: ['#131826'], borderWidth: 3 }] },
+        options: { responsive: true, cutout: '68%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
+      });
     }
-</script>
+  </script>
 </body>
 </html>

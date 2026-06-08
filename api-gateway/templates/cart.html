@@ -4,196 +4,222 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Giỏ Hàng — LUMIÈRE</title>
+  <title>Cart — NEXUS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root{--color-obsidian:#0A0A0A;--color-ivory:#F8F5F0;--color-cream:#EDE8E0;--color-gold:#C9A84C;--color-gold-light:#E8D5A3;--color-charcoal:#2C2C2C;--color-ash:#6B6B6B;--color-silk:#F0EBE3;--color-emerald:#2D6A4F;--color-crimson:#8B1A1A;--font-display:'Playfair Display',Georgia,serif;--font-body:'DM Sans',sans-serif;--font-mono:'JetBrains Mono',monospace;--shadow-subtle:0 1px 3px rgba(0,0,0,0.08);--shadow-hover:0 4px 12px rgba(0,0,0,0.10);--transition:all 0.3s cubic-bezier(0.4,0,0.2,1);--radius-sm:2px;--radius-md:8px;--radius-lg:16px}
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
-    body{font-family:var(--font-body);font-size:15px;line-height:1.6;color:var(--color-charcoal);background:var(--color-ivory);-webkit-font-smoothing:antialiased}
-    h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.2}
-    a{text-decoration:none;color:inherit;transition:var(--transition)}button{font-family:var(--font-body);cursor:pointer;border:none;outline:none;transition:var(--transition)}
-    .container{max-width:1000px;margin:0 auto;padding:0 24px}
+    :root{--bg-base:#0A0E1A;--bg-panel:#131826;--bg-elevated:#1A2030;--bg-hover:#1E2540;--border:rgba(255,255,255,0.06);--border-strong:rgba(255,255,255,0.12);--text-primary:#E4E7EC;--text-secondary:#8B92A8;--text-muted:#5A6076;--accent:#7C3AED;--accent-glow:#A78BFA;--accent-soft:rgba(124,58,237,0.12);--cyan:#06B6D4;--success:#10B981;--warning:#F59E0B;--danger:#EF4444;--font-display:'Space Grotesk',sans-serif;--font-body:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;--transition:all 0.25s cubic-bezier(0.4,0,0.2,1);--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font-body);font-size:15px;line-height:1.6;color:var(--text-primary);background:var(--bg-base);-webkit-font-smoothing:antialiased}
+    h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;line-height:1.2;letter-spacing:-0.02em;color:#fff}
+    a{text-decoration:none;color:inherit;transition:var(--transition)}
+    button{font-family:var(--font-body);cursor:pointer;border:none;outline:none;transition:var(--transition)}
+    .container{max-width:1120px;margin:0 auto;padding:0 32px}
 
     /* NAVBAR */
-    .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(248,245,240,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--color-silk)}
-    .navbar-inner{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:0 24px;height:72px}
-    .nav-logo{font-family:var(--font-display);font-size:24px;font-weight:700;letter-spacing:3px}
-    .nav-links{display:flex;gap:32px;list-style:none}
-    .nav-links a{font-size:14px;font-weight:500;letter-spacing:0.5px;color:var(--color-ash);text-transform:uppercase}
-    .nav-links a:hover{color:var(--color-gold)}
-    .nav-icons{display:flex;align-items:center;gap:20px}
-    .nav-icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;color:var(--color-charcoal);cursor:pointer;position:relative}
-    .nav-icon:hover{background:var(--color-silk)}
-    .nav-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
-    .cart-badge{position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:var(--color-gold);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,14,26,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+    .navbar-inner{display:flex;align-items:center;justify-content:space-between;max-width:1280px;margin:0 auto;padding:0 32px;height:68px}
+    .nav-logo{font-family:var(--font-display);font-size:20px;font-weight:700;letter-spacing:2px;color:#fff;display:flex;align-items:center;gap:8px}
+    .nav-logo::before{content:'';width:10px;height:10px;background:var(--accent);border-radius:2px;box-shadow:0 0 12px var(--accent-glow)}
+    .nav-links{display:flex;gap:4px;list-style:none}
+    .nav-links a{display:block;padding:8px 16px;font-size:13px;font-weight:500;color:var(--text-secondary);border-radius:var(--radius-sm)}
+    .nav-links a:hover{color:var(--text-primary);background:var(--bg-hover)}
+    .nav-icons{display:flex;align-items:center;gap:6px}
+    .nav-icon{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm);color:var(--text-secondary);cursor:pointer;position:relative}
+    .nav-icon:hover{background:var(--bg-hover);color:var(--text-primary)}
+    .nav-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+    .cart-badge{position:absolute;top:4px;right:4px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--accent);color:#fff;font-size:10px;font-weight:700;font-family:var(--font-mono);display:flex;align-items:center;justify-content:center}
 
     /* PROFILE DROPDOWN */
-    .profile-dropdown { position: absolute; top: calc(100% + 15px); right: 0; width: 220px; background: #fff; padding: 8px 0; border-radius: var(--radius-md); box-shadow: var(--shadow-hover); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: var(--transition); cursor: default; z-index: 1001; pointer-events: none; }
-    .nav-icon.profile-active .profile-dropdown { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
-    .profile-dropdown::before { content: ''; position: absolute; top: -6px; right: 14px; transform: rotate(45deg); width: 12px; height: 12px; background: #fff; }
-    .profile-dropdown-header { padding: 12px 20px; border-bottom: 1px solid var(--color-silk); margin-bottom: 8px; }
-    .profile-dropdown-header strong { display: block; font-size: 15px; color: var(--color-obsidian); }
-    .profile-dropdown-header span { font-size: 13px; color: var(--color-ash); }
-    .profile-dropdown a { display: flex; align-items: center; gap: 12px; padding: 10px 20px; font-size: 14px; color: var(--color-charcoal); text-decoration: none; transition: background 0.2s; }
-    .profile-dropdown a:hover { background: var(--color-ivory); color: var(--color-gold); }
-    .profile-dropdown a.text-red { color: var(--color-crimson); }
-    .profile-dropdown a.text-red:hover { background: #ffebeb; }
+    .profile-dropdown{position:absolute;top:calc(100% + 12px);right:0;width:240px;background:var(--bg-panel);padding:6px;border-radius:var(--radius-md);border:1px solid var(--border-strong);box-shadow:0 12px 40px rgba(0,0,0,0.5);opacity:0;visibility:hidden;transform:translateY(-8px);transition:var(--transition);z-index:1001;pointer-events:none}
+    .nav-icon.profile-active .profile-dropdown{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
+    .profile-dropdown-header{padding:14px 14px 12px;border-bottom:1px solid var(--border);margin-bottom:6px}
+    .profile-dropdown-header strong{display:block;font-size:14px;color:var(--text-primary);font-weight:600}
+    .profile-dropdown-header span{font-size:12px;color:var(--text-muted)}
+    .profile-dropdown a{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:13px;color:var(--text-secondary);border-radius:6px}
+    .profile-dropdown a:hover{background:var(--bg-hover);color:var(--text-primary)}
+    .profile-dropdown a.text-red{color:var(--danger)}
+    .profile-dropdown a.text-red:hover{background:rgba(239,68,68,0.1)}
+
+    /* PAGE TOP */
+    .page-top{padding:120px 0 32px}
+    .page-top h1{font-size:clamp(28px,3vw,40px);letter-spacing:-0.03em;margin-bottom:8px}
+    .page-top .sub{font-family:var(--font-mono);font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px}
 
     /* STEPS */
-    .steps-wrap{padding:96px 0 40px}
+    .steps-wrap{padding:0 0 40px}
     .steps{display:flex;align-items:center;justify-content:center;gap:0}
     .step{display:flex;align-items:center;gap:10px}
-    .step-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;background:var(--color-silk);color:var(--color-ash);transition:var(--transition)}
-    .step.active .step-num{background:var(--color-gold);color:#fff}
-    .step.done .step-num{background:var(--color-emerald);color:#fff}
-    .step-label{font-size:14px;font-weight:500;color:var(--color-ash)}
-    .step.active .step-label{color:var(--color-charcoal);font-weight:600}
-    .step.done .step-label{color:var(--color-emerald)}
-    .step-line{width:80px;height:2px;background:var(--color-silk);margin:0 16px}
-    .step-line.done{background:var(--color-emerald)}
+    .step-num{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:13px;font-weight:700;background:var(--bg-elevated);color:var(--text-muted);transition:var(--transition);border:1px solid var(--border-strong)}
+    .step.active .step-num{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+    .step.done .step-num{background:var(--success);color:#fff;border-color:var(--success)}
+    .step-label{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px}
+    .step.active .step-label{color:var(--text-primary)}
+    .step.done .step-label{color:var(--success)}
+    .step-line{width:80px;height:2px;background:var(--border-strong);margin:0 16px}
+    .step-line.done{background:var(--success)}
 
-    /* CART LAYOUT */
-    .cart-layout{display:grid;grid-template-columns:1fr 340px;gap:32px;padding-bottom:64px}
+    /* LAYOUT */
+    .cart-layout{display:grid;grid-template-columns:1fr 360px;gap:32px;padding-bottom:80px}
 
     /* CART ITEMS */
-    .cart-items{background:#fff;border-radius:var(--radius-md);padding:24px;box-shadow:var(--shadow-subtle)}
-    .cart-item{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--color-silk)}
-    .cart-item:last-child{border-bottom:none}
-    .cart-item-img{width:100px;height:120px;border-radius:4px;flex-shrink:0}
-    .cart-item-info{flex:1}
-    .cart-item-brand{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--color-ash);margin-bottom:4px}
-    .cart-item-name{font-family:var(--font-display);font-size:16px;margin-bottom:4px}
-    .cart-item-variant{font-size:13px;color:var(--color-ash);margin-bottom:12px}
-    .cart-item-bottom{display:flex;align-items:center;justify-content:space-between}
-    .cart-item-price{font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--color-gold)}
-    .qty-spinner{display:flex;align-items:center;border:1px solid var(--color-silk);border-radius:var(--radius-sm)}
-    .qty-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;background:#fff;cursor:pointer}
-    .qty-btn:hover{background:var(--color-silk)}
-    .qty-val{width:36px;height:32px;text-align:center;border:none;border-left:1px solid var(--color-silk);border-right:1px solid var(--color-silk);font-family:var(--font-mono);font-size:14px;outline:none}
-    .cart-item-remove{font-size:12px;color:var(--color-ash);cursor:pointer;margin-top:8px}
-    .cart-item-remove:hover{color:var(--color-crimson)}
+    .cart-items{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px}
+    .cart-item{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--border)}
+    .cart-item:last-of-type{border-bottom:none}
+    .cart-item-img{width:90px;height:110px;border-radius:8px;flex-shrink:0;object-fit:cover}
+    .cart-item-info{flex:1;min-width:0}
+    .cart-item-brand{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--accent-glow);margin-bottom:6px}
+    .cart-item-name{font-family:var(--font-display);font-size:16px;font-weight:600;margin-bottom:4px;color:#fff}
+    .cart-item-variant{font-size:13px;color:var(--text-muted);margin-bottom:14px}
+    .cart-item-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .cart-item-price{font-family:var(--font-mono);font-size:15px;font-weight:600;color:var(--accent-glow)}
+    .qty-spinner{display:flex;align-items:center;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--bg-elevated)}
+    .qty-btn{width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:14px;background:transparent;color:var(--text-primary);cursor:pointer}
+    .qty-btn:hover{background:var(--bg-hover)}
+    .qty-val{width:38px;height:30px;text-align:center;background:transparent;border:none;border-left:1px solid var(--border);border-right:1px solid var(--border);font-family:var(--font-mono);font-size:13px;font-weight:600;outline:none;color:var(--text-primary)}
+    .cart-item-remove{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);cursor:pointer;margin-top:10px;text-transform:uppercase;letter-spacing:0.5px;display:inline-block}
+    .cart-item-remove:hover{color:var(--danger)}
 
     /* COUPON */
-    .coupon-row{display:flex;gap:8px;margin-top:20px;padding-top:20px;border-top:1px solid var(--color-silk)}
-    .coupon-input{flex:1;padding:10px 14px;border:1px solid var(--color-silk);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:14px;outline:none;background:var(--color-ivory)}
-    .coupon-input:focus{border-color:var(--color-gold)}
-    .coupon-btn{padding:10px 20px;background:var(--color-charcoal);color:#fff;font-size:13px;font-weight:600;border-radius:var(--radius-sm)}
-    .coupon-btn:hover{background:var(--color-gold)}
+    .coupon-row{display:flex;gap:8px;margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+    .coupon-input{flex:1;padding:11px 14px;background:var(--bg-elevated);border:1px solid var(--border-strong);border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:13px;outline:none;color:var(--text-primary)}
+    .coupon-input::placeholder{color:var(--text-muted)}
+    .coupon-input:focus{border-color:var(--accent)}
+    .coupon-btn{padding:11px 20px;background:var(--bg-elevated);color:var(--text-primary);font-family:var(--font-mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;border-radius:var(--radius-sm);border:1px solid var(--border-strong)}
+    .coupon-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 
     /* SUMMARY */
-    .order-summary{background:#fff;border-radius:var(--radius-md);padding:24px;box-shadow:var(--shadow-subtle);height:fit-content;position:sticky;top:96px}
-    .summary-title{font-size:18px;margin-bottom:20px}
-    .summary-row{display:flex;justify-content:space-between;padding:8px 0;font-size:14px}
-    .summary-row.discount{color:var(--color-emerald)}
-    .summary-divider{height:1px;background:var(--color-silk);margin:12px 0}
-    .summary-total{display:flex;justify-content:space-between;padding:8px 0;font-size:18px;font-weight:700}
-    .summary-total .total-price{font-family:var(--font-mono);color:var(--color-gold);font-size:22px}
-    .btn-checkout{width:100%;padding:16px;background:var(--color-gold);color:#fff;font-size:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase;border-radius:var(--radius-sm);margin-top:20px}
-    .btn-checkout:hover{background:#b8973f;transform:translateY(-1px);box-shadow:var(--shadow-hover)}
-    .btn-back{width:100%;padding:12px;background:transparent;border:1.5px solid var(--color-silk);color:var(--color-ash);font-size:13px;font-weight:500;border-radius:var(--radius-sm);margin-top:8px}
-    .btn-back:hover{border-color:var(--color-charcoal);color:var(--color-charcoal)}
+    .order-summary{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;height:fit-content;position:sticky;top:88px}
+    .summary-title{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-glow);margin-bottom:20px;display:flex;align-items:center;gap:8px}
+    .summary-title::before{content:'';width:6px;height:6px;background:var(--accent-glow);border-radius:50%}
+    .summary-row{display:flex;justify-content:space-between;padding:8px 0;font-size:14px;color:var(--text-secondary)}
+    .summary-row.discount{color:var(--success)}
+    .summary-row span:last-child{font-family:var(--font-mono);color:var(--text-primary)}
+    .summary-divider{height:1px;background:var(--border);margin:12px 0}
+    .summary-total{display:flex;justify-content:space-between;padding:12px 0;font-size:14px;font-weight:600;color:var(--text-primary);text-transform:uppercase;letter-spacing:1px;font-family:var(--font-mono)}
+    .summary-total .total-price{font-family:var(--font-mono);color:var(--accent-glow);font-size:22px;font-weight:700}
+    .btn-checkout{width:100%;padding:16px;background:var(--accent);color:#fff;font-family:var(--font-mono);font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;border-radius:var(--radius-sm);margin-top:20px;box-shadow:0 4px 16px rgba(124,58,237,0.3)}
+    .btn-checkout:hover{background:var(--accent-glow);transform:translateY(-1px)}
+    .btn-back{width:100%;padding:12px;background:transparent;border:1px solid var(--border-strong);color:var(--text-secondary);font-family:var(--font-mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;border-radius:var(--radius-sm);margin-top:8px}
+    .btn-back:hover{border-color:var(--accent-glow);color:var(--accent-glow)}
 
     /* STEP PANELS */
     .step-panel{display:none}.step-panel.active{display:block}
+    .step-panel h3{font-size:18px;margin-bottom:20px;letter-spacing:-0.02em}
 
-    /* SHIPPING FORM */
+    /* FORM */
     .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     .form-group{display:flex;flex-direction:column;gap:6px}
     .form-group.full{grid-column:1/-1}
-    .form-label{font-size:13px;font-weight:600;color:var(--color-charcoal)}
-    .form-input{padding:12px 14px;border:1px solid var(--color-silk);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:14px;outline:none;background:#fff}
-    .form-input:focus{border-color:var(--color-gold)}
+    .form-label{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px}
+    .form-input{padding:12px 14px;background:var(--bg-elevated);border:1px solid var(--border-strong);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:14px;outline:none;color:var(--text-primary)}
+    .form-input::placeholder{color:var(--text-muted)}
+    .form-input:focus{border-color:var(--accent)}
 
     /* DELIVERY OPTIONS */
     .delivery-options{margin-top:24px}
-    .delivery-card{display:flex;align-items:center;gap:16px;padding:16px;border:1.5px solid var(--color-silk);border-radius:var(--radius-md);margin-bottom:10px;cursor:pointer;transition:var(--transition)}
-    .delivery-card:hover{border-color:var(--color-ash)}
-    .delivery-card.selected{border-color:var(--color-gold);background:rgba(201,168,76,0.03)}
-    .delivery-radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--color-silk);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .delivery-card.selected .delivery-radio{border-color:var(--color-gold)}
-    .delivery-card.selected .delivery-radio::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--color-gold)}
+    .delivery-options h4{font-size:15px;margin-bottom:12px;letter-spacing:-0.01em}
+    .delivery-card{display:flex;align-items:center;gap:16px;padding:16px;border:1px solid var(--border-strong);border-radius:var(--radius-md);margin-bottom:10px;cursor:pointer;background:var(--bg-elevated);transition:var(--transition)}
+    .delivery-card:hover{border-color:var(--accent-glow)}
+    .delivery-card.selected{border-color:var(--accent);background:var(--accent-soft)}
+    .delivery-radio{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--bg-base)}
+    .delivery-card.selected .delivery-radio{border-color:var(--accent)}
+    .delivery-card.selected .delivery-radio::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--accent)}
     .delivery-info{flex:1}
-    .delivery-name{font-weight:600;font-size:14px;margin-bottom:2px}
-    .delivery-desc{font-size:12px;color:var(--color-ash)}
-    .delivery-price{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--color-gold)}
+    .delivery-name{font-weight:600;font-size:14px;color:var(--text-primary);margin-bottom:2px}
+    .delivery-desc{font-size:12px;color:var(--text-muted)}
+    .delivery-price{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--accent-glow)}
 
     /* PAYMENT */
     .payment-methods{display:flex;flex-direction:column;gap:10px}
-    .pay-card{display:flex;align-items:center;gap:16px;padding:16px;border:1.5px solid var(--color-silk);border-radius:var(--radius-md);cursor:pointer;transition:var(--transition)}
-    .pay-card:hover{border-color:var(--color-ash)}
-    .pay-card.selected{border-color:var(--color-gold);background:rgba(201,168,76,0.03)}
-    .pay-radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--color-silk);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .pay-card.selected .pay-radio{border-color:var(--color-gold)}
-    .pay-card.selected .pay-radio::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--color-gold)}
-    .pay-icon{font-size:24px;width:40px;text-align:center}
-    .pay-name{font-weight:600;font-size:14px}
-    .card-form{margin-top:16px;padding:20px;background:var(--color-ivory);border-radius:var(--radius-md);display:none}
+    .pay-card{display:flex;align-items:center;gap:16px;padding:16px;border:1px solid var(--border-strong);border-radius:var(--radius-md);cursor:pointer;background:var(--bg-elevated);transition:var(--transition)}
+    .pay-card:hover{border-color:var(--accent-glow)}
+    .pay-card.selected{border-color:var(--accent);background:var(--accent-soft)}
+    .pay-radio{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--bg-base)}
+    .pay-card.selected .pay-radio{border-color:var(--accent)}
+    .pay-card.selected .pay-radio::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--accent)}
+    .pay-icon{font-size:22px;width:40px;text-align:center}
+    .pay-name{font-weight:600;font-size:14px;color:var(--text-primary)}
+    .card-form{margin-top:16px;padding:20px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-md);display:none}
     .card-form.show{display:block}
 
-    /* REVIEW ORDER */
-    .review-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--color-silk);font-size:14px}
+    /* REVIEW */
+    .review-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px;align-items:center}
     .review-item:last-child{border-bottom:none}
-    .review-thumb{width:48px;height:56px;border-radius:4px;flex-shrink:0}
+    .review-thumb{width:48px;height:56px;border-radius:6px;flex-shrink:0;object-fit:cover}
+    .review-item strong{color:var(--text-primary);font-weight:600;display:block}
 
-    /* SUCCESS MODAL */
-    .modal-bg{display:none;position:fixed;inset:0;background:rgba(10,10,10,0.5);z-index:10000;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+    /* MODAL */
+    .modal-bg{display:none;position:fixed;inset:0;background:rgba(10,14,26,0.85);z-index:10000;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
     .modal-bg.show{display:flex}
-    .modal{background:#fff;border-radius:var(--radius-lg);padding:48px;text-align:center;max-width:420px;width:90%;animation:chatSlideUp 0.3s ease}
-    @keyframes chatSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-    .modal-check{width:64px;height:64px;border-radius:50%;background:var(--color-emerald);color:#fff;font-size:32px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
-    .modal h2{font-size:24px;margin-bottom:8px}
-    .modal p{color:var(--color-ash);font-size:14px;margin-bottom:4px}
-    .modal .order-code{font-family:var(--font-mono);font-size:18px;font-weight:600;color:var(--color-gold);margin:12px 0 24px}
-    .modal-btns{display:flex;gap:12px;justify-content:center}
-    .modal-btn{padding:12px 24px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;letter-spacing:0.5px}
-    .modal-btn.primary{background:var(--color-gold);color:#fff}
-    .modal-btn.primary:hover{background:#b8973f}
-    .modal-btn.secondary{background:transparent;border:1.5px solid var(--color-silk);color:var(--color-charcoal)}
-    .modal-btn.secondary:hover{border-color:var(--color-charcoal)}
+    .modal{background:var(--bg-panel);border:1px solid var(--border-strong);border-radius:var(--radius-lg);padding:48px 40px;text-align:center;max-width:440px;width:90%;animation:modalUp 0.3s ease}
+    @keyframes modalUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .modal-check{width:64px;height:64px;border-radius:16px;background:var(--success);color:#fff;font-size:32px;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;box-shadow:0 0 0 8px rgba(16,185,129,0.15)}
+    .modal h2{font-size:24px;margin-bottom:8px;letter-spacing:-0.02em}
+    .modal p{color:var(--text-secondary);font-size:14px;margin-bottom:4px}
+    .modal .order-code{font-family:var(--font-mono);font-size:18px;font-weight:600;color:var(--accent-glow);margin:16px 0 24px;padding:8px 16px;background:var(--bg-elevated);border-radius:6px;display:inline-block}
+    .modal-btns{display:flex;gap:12px;justify-content:center;margin-top:24px}
+    .modal-btn{padding:12px 24px;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+    .modal-btn.primary{background:var(--accent);color:#fff}
+    .modal-btn.primary:hover{background:var(--accent-glow)}
+    .modal-btn.secondary{background:transparent;border:1px solid var(--border-strong);color:var(--text-primary)}
+    .modal-btn.secondary:hover{border-color:var(--accent)}
 
     /* CHAT */
-    .chat-bubble{position:fixed;bottom:24px;right:24px;z-index:9999;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--color-gold),#b8973f);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 20px rgba(201,168,76,0.4);transition:var(--transition)}
-    .chat-bubble:hover{transform:scale(1.08)}.chat-bubble svg{width:26px;height:26px;fill:#fff}
-    .chat-bubble-label{position:absolute;right:72px;top:50%;transform:translateY(-50%);background:var(--color-charcoal);color:#fff;padding:6px 14px;border-radius:8px;font-size:13px;white-space:nowrap;opacity:0;transition:var(--transition);pointer-events:none}
+    .chat-bubble{position:fixed;bottom:24px;right:24px;z-index:9999;width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--cyan));display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 24px rgba(124,58,237,0.5);transition:var(--transition)}
+    .chat-bubble:hover{transform:scale(1.05)}
+    .chat-bubble svg{width:24px;height:24px;fill:#fff}
+    .chat-bubble-label{position:absolute;right:68px;top:50%;transform:translateY(-50%);background:var(--bg-panel);border:1px solid var(--border-strong);color:var(--text-primary);padding:6px 14px;border-radius:8px;font-size:13px;white-space:nowrap;opacity:0;transition:var(--transition);pointer-events:none}
     .chat-bubble:hover .chat-bubble-label{opacity:1}
-    .chat-bubble-pulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--color-gold);opacity:0;animation:chatPulse 2s ease-out infinite}
-    @keyframes chatPulse{0%{transform:scale(1);opacity:0.6}100%{transform:scale(1.5);opacity:0}}
-    .chat-panel{position:fixed;bottom:96px;right:24px;z-index:9999;width:380px;height:520px;border-radius:var(--radius-lg);background:#fff;box-shadow:0 8px 40px rgba(0,0,0,0.15);display:none;flex-direction:column;overflow:hidden}
+    .chat-bubble-pulse{position:absolute;inset:-4px;border-radius:18px;border:2px solid var(--accent-glow);opacity:0;animation:chatPulse 2s ease-out infinite}
+    @keyframes chatPulse{0%{transform:scale(1);opacity:0.6}100%{transform:scale(1.4);opacity:0}}
+    .chat-panel{position:fixed;bottom:96px;right:24px;z-index:9999;width:400px;height:560px;border-radius:var(--radius-lg);background:var(--bg-panel);border:1px solid var(--border-strong);box-shadow:0 24px 60px rgba(0,0,0,0.6);display:none;flex-direction:column;overflow:hidden}
     .chat-panel.open{display:flex}
-    .chat-header{background:var(--color-obsidian);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
-    .chat-header-info h3{font-family:var(--font-display);font-size:16px;color:var(--color-ivory);margin-bottom:2px}.chat-header-info small{font-size:11px;color:var(--color-gold)}
-    .chat-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.1);color:var(--color-ivory);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;border:none}.chat-close:hover{background:rgba(255,255,255,0.2)}
+    .chat-header{background:var(--bg-elevated);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+    .chat-header-info h3{font-family:var(--font-display);font-size:15px;color:#fff;margin-bottom:2px}
+    .chat-header-info small{font-family:var(--font-mono);font-size:10px;color:var(--accent-glow);letter-spacing:1px;text-transform:uppercase}
+    .chat-close{width:30px;height:30px;border-radius:8px;background:transparent;color:var(--text-secondary);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;border:none}
+    .chat-close:hover{background:var(--bg-hover);color:var(--text-primary)}
     .chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
-    .chat-msg{display:flex;gap:8px;max-width:85%}.chat-msg.bot{align-self:flex-start}.chat-msg.user{align-self:flex-end;flex-direction:row-reverse}
-    .chat-avatar{width:32px;height:32px;border-radius:50%;background:var(--color-obsidian);color:var(--color-gold);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:14px;font-weight:700;flex-shrink:0}
-    .chat-msg.user .chat-avatar{background:var(--color-gold);color:#fff}
-    .chat-msg-bubble{padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.5}
-    .chat-msg.bot .chat-msg-bubble{background:var(--color-cream);border-bottom-left-radius:4px}.chat-msg.user .chat-msg-bubble{background:var(--color-gold);color:#fff;border-bottom-right-radius:4px}
-    .chat-typing{display:flex;gap:4px;padding:4px 0;align-items:center}.chat-typing span{width:6px;height:6px;border-radius:50%;background:var(--color-ash);animation:typingDot 1.4s infinite}
-    .chat-typing span:nth-child(2){animation-delay:0.2s}.chat-typing span:nth-child(3){animation-delay:0.4s}
+    .chat-msg{display:flex;gap:8px;max-width:85%}
+    .chat-msg.bot{align-self:flex-start}
+    .chat-msg.user{align-self:flex-end;flex-direction:row-reverse}
+    .chat-avatar{width:28px;height:28px;border-radius:8px;background:var(--bg-elevated);color:var(--accent-glow);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:12px;font-weight:700;flex-shrink:0;border:1px solid var(--border-strong)}
+    .chat-msg.user .chat-avatar{background:var(--accent);color:#fff;border-color:var(--accent)}
+    .chat-msg-bubble{padding:10px 14px;border-radius:10px;font-size:14px;line-height:1.5}
+    .chat-msg.bot .chat-msg-bubble{background:var(--bg-elevated);color:var(--text-primary);border-bottom-left-radius:4px}
+    .chat-msg.user .chat-msg-bubble{background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+    .chat-typing{display:flex;gap:4px;padding:4px 0;align-items:center}
+    .chat-typing span{width:6px;height:6px;border-radius:50%;background:var(--text-muted);animation:typingDot 1.4s infinite}
+    .chat-typing span:nth-child(2){animation-delay:0.2s}
+    .chat-typing span:nth-child(3){animation-delay:0.4s}
     @keyframes typingDot{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
     .chat-quick-replies{padding:0 16px 8px;display:flex;gap:8px;flex-wrap:wrap}
-    .chat-quick-btn{padding:6px 14px;border:1px solid var(--color-silk);border-radius:50px;font-size:12px;color:var(--color-charcoal);background:#fff;cursor:pointer}.chat-quick-btn:hover{border-color:var(--color-gold);color:var(--color-gold)}
-    .chat-input-area{padding:12px 16px;border-top:1px solid var(--color-silk);display:flex;gap:8px}
-    .chat-input{flex:1;padding:10px 14px;border:1px solid var(--color-silk);border-radius:var(--radius-md);font-family:var(--font-body);font-size:14px;outline:none;background:var(--color-ivory)}.chat-input:focus{border-color:var(--color-gold)}
-    .chat-send{width:40px;height:40px;border-radius:var(--radius-md);background:var(--color-gold);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer}.chat-send:hover{background:#b8973f}.chat-send svg{width:18px;height:18px;fill:#fff}
+    .chat-quick-btn{padding:6px 12px;border:1px solid var(--border-strong);border-radius:50px;font-size:12px;color:var(--text-secondary);background:var(--bg-elevated);cursor:pointer}
+    .chat-quick-btn:hover{border-color:var(--accent);color:var(--accent-glow)}
+    .chat-input-area{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px}
+    .chat-input{flex:1;padding:10px 14px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;outline:none;color:var(--text-primary)}
+    .chat-input:focus{border-color:var(--accent)}
+    .chat-send{width:40px;height:40px;border-radius:var(--radius-sm);background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none}
+    .chat-send:hover{background:var(--accent-glow)}
+    .chat-send svg{width:18px;height:18px;fill:#fff}
 
     /* FOOTER */
-    .footer{background:var(--color-obsidian);color:rgba(248,245,240,0.7);padding:48px 0 24px;margin-top:64px}
-    .footer-bottom{text-align:center;font-size:13px;color:rgba(248,245,240,0.3)}
+    .footer{background:var(--bg-panel);border-top:1px solid var(--border);padding:32px 0;margin-top:64px}
+    .footer-bottom{text-align:center;font-family:var(--font-mono);font-size:11px;color:var(--text-muted)}
 
-    @media(max-width:768px){.cart-layout{grid-template-columns:1fr}.nav-links{display:none}.form-grid{grid-template-columns:1fr}.steps{gap:0}.step-line{width:40px;margin:0 8px}.chat-panel{width:calc(100vw - 32px);right:16px;bottom:88px;height:60vh}}
+    @media(max-width:768px){.cart-layout{grid-template-columns:1fr}.order-summary{position:static}.nav-links{display:none}.form-grid{grid-template-columns:1fr}.steps{gap:0}.step-line{width:40px;margin:0 8px}.chat-panel{width:calc(100vw - 32px);right:16px;bottom:88px;height:60vh}}
   </style>
 </head>
 <body>
   <nav class="navbar"><div class="navbar-inner">
-    <a href="/" class="nav-logo">LUMIÈRE</a>
-    <ul class="nav-links"><li><a href="/listing/">Sách</a></li><li><a href="/listing/">Thời Trang</a></li><li><a href="/#about">Về Chúng Tôi</a></li></ul>
+    <a href="/" class="nav-logo">NEXUS</a>
+    <ul class="nav-links"><li><a href="/listing/">Books</a></li><li><a href="/listing/">Fashion</a></li><li><a href="/#about">About</a></li></ul>
     <div class="nav-icons">
       <div class="nav-icon" title="Tìm kiếm" onclick="location.href='/listing/'"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
       <div class="nav-icon" title="Yêu thích"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
-      <div class="nav-icon" title="Giỏ hàng" onclick="location.href='/cart/'"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="cart-badge" id="cart-count" style="display: none;">0</span></div>
+      <div class="nav-icon" title="Giỏ hàng" onclick="location.href='/cart/'"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="cart-badge" id="cart-count" style="display:none;">0</span></div>
       <div class="nav-icon" id="nav-profile" title="Tài khoản">
         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <div class="profile-dropdown" id="profile-dropdown"></div>
@@ -202,14 +228,18 @@
   </div></nav>
 
   <div class="container">
-    <!-- STEPS -->
+    <div class="page-top">
+      <div class="sub">// checkout flow</div>
+      <h1>Your Cart.</h1>
+    </div>
+
     <div class="steps-wrap">
       <div class="steps" id="steps-nav">
-        <div class="step active" data-step="1"><div class="step-num">1</div><span class="step-label">Giỏ hàng</span></div>
+        <div class="step active" data-step="1"><div class="step-num">01</div><span class="step-label">Cart</span></div>
         <div class="step-line" id="line-1"></div>
-        <div class="step" data-step="2"><div class="step-num">2</div><span class="step-label">Giao hàng</span></div>
+        <div class="step" data-step="2"><div class="step-num">02</div><span class="step-label">Shipping</span></div>
         <div class="step-line" id="line-2"></div>
-        <div class="step" data-step="3"><div class="step-num">3</div><span class="step-label">Thanh toán</span></div>
+        <div class="step" data-step="3"><div class="step-num">03</div><span class="step-label">Payment</span></div>
       </div>
     </div>
 
@@ -221,11 +251,11 @@
             {% if cart_items %}
               {% for item in cart_items %}
               <div class="cart-item" data-id="{{ item.item_id }}" data-product-id="{{ item.book_id }}" data-price="{{ item.price }}">
-                <img class="cart-item-img" src="{{ item.image_url|default:'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=80' }}" style="object-fit:cover;border-radius:4px" alt="{{ item.title }}">
+                <img class="cart-item-img" src="{{ item.image_url|default:'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=80' }}" alt="{{ item.title }}">
                 <div class="cart-item-info">
-                  <p class="cart-item-brand">LUMIÈRE</p>
+                  <p class="cart-item-brand">NEXUS</p>
                   <h4 class="cart-item-name">{{ item.title }}</h4>
-                  <p class="cart-item-variant">Sản phẩm chất lượng</p>
+                  <p class="cart-item-variant">Premium product</p>
                   <div class="cart-item-bottom">
                     <span class="cart-item-price">{{ item.price|vnd }} ₫</span>
                     <div class="qty-spinner">
@@ -234,17 +264,17 @@
                       <button class="qty-btn qp">+</button>
                     </div>
                   </div>
-                  <div class="cart-item-remove" data-id="{{ item.item_id }}">Xóa</div>
+                  <div class="cart-item-remove" data-id="{{ item.item_id }}">× Remove</div>
                 </div>
               </div>
               {% endfor %}
             {% else %}
-              <p style="padding: 24px; text-align: center; color: var(--color-ash);">Giỏ hàng của bạn đang trống.</p>
+              <p style="padding: 48px; text-align: center; color: var(--text-muted); font-family: var(--font-mono);">// cart is empty</p>
             {% endif %}
-            
+
             <div class="coupon-row">
-              <input type="text" class="coupon-input" placeholder="Nhập mã giảm giá...">
-              <button class="coupon-btn">Áp dụng</button>
+              <input type="text" class="coupon-input" placeholder="Promo code...">
+              <button class="coupon-btn">Apply</button>
             </div>
           </div>
         </div>
@@ -252,7 +282,7 @@
         <!-- STEP 2: SHIPPING -->
         <div class="step-panel" id="panel-2">
           <div class="cart-items">
-            <h3 style="margin-bottom:20px">Thông Tin Giao Hàng</h3>
+            <h3>Shipping Information</h3>
             <div class="form-grid" id="shipping-form">
               <div class="form-group"><label class="form-label">Họ tên *</label><input class="form-input" id="ship-name" placeholder="Nguyễn Văn A"></div>
               <div class="form-group"><label class="form-label">Số điện thoại *</label><input class="form-input" id="ship-phone" placeholder="0901 234 567"></div>
@@ -262,20 +292,20 @@
               <div class="form-group"><label class="form-label">Tỉnh / Thành phố *</label><input class="form-input" id="ship-city" placeholder="TP. Hồ Chí Minh"></div>
             </div>
             <div class="delivery-options">
-              <h4 style="margin-bottom:12px">Phương thức vận chuyển</h4>
+              <h4>Delivery Method</h4>
               <div class="delivery-card selected" data-ship="30000" data-id="1" onclick="selectDelivery(this)">
                 <div class="delivery-radio"></div>
-                <div class="delivery-info"><div class="delivery-name">Giao tiêu chuẩn</div><div class="delivery-desc">3-5 ngày làm việc</div></div>
+                <div class="delivery-info"><div class="delivery-name">Standard Delivery</div><div class="delivery-desc">3-5 ngày làm việc</div></div>
                 <div class="delivery-price">30.000 ₫</div>
               </div>
               <div class="delivery-card" data-ship="60000" data-id="2" onclick="selectDelivery(this)">
                 <div class="delivery-radio"></div>
-                <div class="delivery-info"><div class="delivery-name">Giao nhanh</div><div class="delivery-desc">1-2 ngày làm việc</div></div>
+                <div class="delivery-info"><div class="delivery-name">Express</div><div class="delivery-desc">1-2 ngày làm việc</div></div>
                 <div class="delivery-price">60.000 ₫</div>
               </div>
               <div class="delivery-card" data-ship="120000" data-id="3" onclick="selectDelivery(this)">
                 <div class="delivery-radio"></div>
-                <div class="delivery-info"><div class="delivery-name">Hỏa tốc</div><div class="delivery-desc">Trong ngày (nội thành)</div></div>
+                <div class="delivery-info"><div class="delivery-name">Same Day</div><div class="delivery-desc">Trong ngày (nội thành)</div></div>
                 <div class="delivery-price">120.000 ₫</div>
               </div>
             </div>
@@ -285,64 +315,64 @@
         <!-- STEP 3: PAYMENT -->
         <div class="step-panel" id="panel-3">
           <div class="cart-items">
-            <h3 style="margin-bottom:20px">Thanh Toán</h3>
+            <h3>Payment</h3>
             <div class="payment-methods">
-              <div class="pay-card selected" data-id="2" onclick="selectPay(this,'bank')"><div class="pay-radio"></div><div class="pay-icon">🏦</div><div><div class="pay-name">Thẻ ngân hàng / Thẻ tín dụng</div></div></div>
-              <div class="pay-card" data-id="1" onclick="selectPay(this,'cod')"><div class="pay-radio"></div><div class="pay-icon">📦</div><div><div class="pay-name">Thanh toán khi nhận hàng (COD)</div></div></div>
+              <div class="pay-card selected" data-id="2" onclick="selectPay(this,'bank')"><div class="pay-radio"></div><div class="pay-icon">💳</div><div><div class="pay-name">Credit / Debit Card</div></div></div>
+              <div class="pay-card" data-id="1" onclick="selectPay(this,'cod')"><div class="pay-radio"></div><div class="pay-icon">📦</div><div><div class="pay-name">Cash on Delivery (COD)</div></div></div>
             </div>
             <div class="card-form show" id="card-form">
               <div class="form-grid">
-                <div class="form-group full"><label class="form-label">Số thẻ *</label><input class="form-input" id="card-num" placeholder="•••• •••• •••• ••••" maxlength="19"></div>
-                <div class="form-group"><label class="form-label">Tháng/Năm *</label><input class="form-input" id="card-exp" placeholder="MM/YY" maxlength="5"></div>
+                <div class="form-group full"><label class="form-label">Card Number *</label><input class="form-input" id="card-num" placeholder="•••• •••• •••• ••••" maxlength="19"></div>
+                <div class="form-group"><label class="form-label">Expiry *</label><input class="form-input" id="card-exp" placeholder="MM/YY" maxlength="5"></div>
                 <div class="form-group"><label class="form-label">CVV *</label><input class="form-input" id="card-cvv" placeholder="•••" maxlength="3" type="password"></div>
               </div>
             </div>
-            <h4 style="margin-top:24px;margin-bottom:12px">Tóm Tắt Đơn Hàng</h4>
+            <h4 style="margin-top:32px;margin-bottom:14px;font-size:14px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);">// order summary</h4>
             {% for item in cart_items %}
             <div class="review-item" data-id="{{ item.item_id }}">
-              <img class="review-thumb" src="{{ item.image_url|default:'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=150&q=80' }}" style="object-fit:cover" alt="{{ item.title }}">
-              <div><strong>{{ item.title }}</strong><br><span style="font-size:12px;color:var(--color-ash)">Sản phẩm chất lượng · x<span class="review-qty-{{ item.item_id }}">{{ item.quantity }}</span></span></div>
-              <div style="margin-left:auto;font-family:var(--font-mono);color:var(--color-gold)" class="review-subtotal-{{ item.item_id }}">{{ item.subtotal|vnd }} ₫</div>
+              <img class="review-thumb" src="{{ item.image_url|default:'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=150&q=80' }}" alt="{{ item.title }}">
+              <div style="flex:1"><strong>{{ item.title }}</strong><span style="font-size:12px;color:var(--text-muted);font-family:var(--font-mono)">qty: <span class="review-qty-{{ item.item_id }}">{{ item.quantity }}</span></span></div>
+              <div style="font-family:var(--font-mono);color:var(--accent-glow);font-weight:600" class="review-subtotal-{{ item.item_id }}">{{ item.subtotal|vnd }} ₫</div>
             </div>
             {% endfor %}
           </div>
         </div>
       </div>
 
-      <!-- SUMMARY SIDEBAR -->
+      <!-- SUMMARY -->
       <div class="order-summary">
-        <h3 class="summary-title">Đơn Hàng</h3>
-        <div class="summary-row"><span>Tạm tính (<span id="cart-item-count">{{ cart_items|length }}</span> sản phẩm)</span><span id="subtotal" style="font-family:var(--font-mono)">{{ total_price|vnd }} ₫</span></div>
-        <div class="summary-row"><span>Phí vận chuyển</span><span id="ship-cost" style="font-family:var(--font-mono)">30.000 ₫</span></div>
-        <div class="summary-row discount"><span>Giảm giá</span><span id="discount" style="font-family:var(--font-mono)">-0 ₫</span></div>
+        <h3 class="summary-title">Order Summary</h3>
+        <div class="summary-row"><span>Subtotal (<span id="cart-item-count">{{ cart_items|length }}</span> items)</span><span id="subtotal">{{ total_price|vnd }} ₫</span></div>
+        <div class="summary-row"><span>Shipping</span><span id="ship-cost">30.000 ₫</span></div>
+        <div class="summary-row discount"><span>Discount</span><span id="discount">-0 ₫</span></div>
         <div class="summary-divider"></div>
-        <div class="summary-total"><span>Tổng cộng</span><span class="total-price" id="total">{{ total_price|add:30000|vnd }} ₫</span></div>
-        <button class="btn-checkout" id="btn-next">Tiếp tục</button>
-        <button class="btn-back" id="btn-prev" style="display:none">← Quay lại</button>
+        <div class="summary-total"><span>Total</span><span class="total-price" id="total">{{ total_price|add:30000|vnd }} ₫</span></div>
+        <button class="btn-checkout" id="btn-next">Continue →</button>
+        <button class="btn-back" id="btn-prev" style="display:none">← Back</button>
       </div>
     </div>
   </div>
 
-  <!-- SUCCESS MODAL -->
+  <!-- MODAL -->
   <div class="modal-bg" id="modal">
     <div class="modal">
       <div class="modal-check">✓</div>
-      <h2>Đặt Hàng Thành Công!</h2>
-      <p>Cảm ơn bạn đã mua sắm tại LUMIÈRE</p>
-      <div class="order-code">#LM260405</div>
-      <p style="font-size:13px">Chúng tôi sẽ gửi email xác nhận đơn hàng cho bạn.</p>
-      <div class="modal-btns" style="margin-top:20px">
-        <a href="/" class="modal-btn primary">Về trang chủ</a>
-        <a href="/listing/" class="modal-btn secondary">Tiếp tục mua</a>
+      <h2>Order Placed!</h2>
+      <p>Cảm ơn bạn đã mua sắm tại NEXUS</p>
+      <div class="order-code">#NX260605</div>
+      <p style="font-size:12px;color:var(--text-muted);font-family:var(--font-mono);">// confirmation email sent</p>
+      <div class="modal-btns">
+        <a href="/" class="modal-btn primary">Back to Home</a>
+        <a href="/listing/" class="modal-btn secondary">Continue Shopping</a>
       </div>
     </div>
   </div>
 
   <!-- CHAT -->
-  <div class="chat-bubble" id="chat-bubble"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="chat-bubble-label">Tư vấn AI</span><div class="chat-bubble-pulse"></div></div>
+  <div class="chat-bubble" id="chat-bubble"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="chat-bubble-label">AI Assistant</span><div class="chat-bubble-pulse"></div></div>
   <div class="chat-panel" id="chat-panel">
-    <div class="chat-header"><div class="chat-header-info"><h3>Trợ Lý LUMIÈRE</h3><small>Powered by AI</small></div><button class="chat-close" id="chat-close">&times;</button></div>
-    <div class="chat-messages" id="chat-messages"><div class="chat-msg bot"><div class="chat-avatar">L</div><div class="chat-msg-bubble">Xin chào! Bạn cần hỗ trợ gì về đơn hàng hoặc thanh toán?</div></div></div>
+    <div class="chat-header"><div class="chat-header-info"><h3>NEXUS Assistant</h3><small>◉ Online</small></div><button class="chat-close" id="chat-close">&times;</button></div>
+    <div class="chat-messages" id="chat-messages"><div class="chat-msg bot"><div class="chat-avatar">N</div><div class="chat-msg-bubble">Xin chào! Bạn cần hỗ trợ gì về đơn hàng hoặc thanh toán?</div></div></div>
     <div class="chat-quick-replies" id="chat-quick-replies">
       <button class="chat-quick-btn" data-msg="Có mã giảm giá nào không?">Mã giảm giá</button>
       <button class="chat-quick-btn" data-msg="Phí vận chuyển như thế nào?">Phí ship</button>
@@ -352,10 +382,10 @@
   </div>
 
   <!-- FOOTER -->
-  <footer class="footer"><div class="container"><div class="footer-bottom">© 2026 LUMIÈRE. All rights reserved. | Tri thức · Phong cách · Đẳng cấp</div></div></footer>
+  <footer class="footer"><div class="container"><div class="footer-bottom">© 2026 NEXUS · v2.6.0</div></div></footer>
 
   <script>
-    const track=(e,d)=>{console.log('%c[BEHAVIOR]','color:#2D6A4F;font-weight:bold',e,d)};
+    const track=(e,d)=>{console.log('%c[BEHAVIOR]','color:#7C3AED;font-weight:bold',e,d)};
     track('page_view',{page:'cart',timestamp:Date.now()});
 
     let currentStep=1;
@@ -375,13 +405,11 @@
       document.getElementById('line-1').classList.toggle('done',n>1);
       document.getElementById('line-2').classList.toggle('done',n>2);
       btnPrev.style.display=n>1?'block':'none';
-      if(n===3){btnNext.textContent='ĐẶT HÀNG'}
-      else{btnNext.textContent='TIẾP TỤC'}
+      btnNext.textContent = n===3 ? 'Place Order →' : 'Continue →';
       window.scrollTo({top:0,behavior:'smooth'});
       track('checkout_step',{step:n});
     }
 
-    // Utility logic for checkout validation
     function validateShipping() {
       const name = document.getElementById('ship-name').value.trim();
       const phone = document.getElementById('ship-phone').value.trim();
@@ -389,52 +417,32 @@
       const city = document.getElementById('ship-city').value.trim();
       const district = document.getElementById('ship-district').value.trim();
       const selectedMethod = document.querySelector('.delivery-options .delivery-card.selected');
-      if (!name || !phone || !address || !city || !district) {
-        alert("Vui lòng điền đầy đủ thông tin giao hàng!");
-        return false;
-      }
-      if (!selectedMethod) {
-        alert("Vui lòng chọn 1 phương thức giao hàng!");
-        return false;
-      }
+      if (!name || !phone || !address || !city || !district) { alert("Vui lòng điền đầy đủ thông tin giao hàng!"); return false; }
+      if (!selectedMethod) { alert("Vui lòng chọn phương thức giao hàng!"); return false; }
       return true;
     }
 
     function validatePayment() {
       const selectedPay = document.querySelector('.payment-methods .pay-card.selected');
-      if (!selectedPay) {
-        alert("Vui lòng chọn phương thức thanh toán!");
-        return false;
-      }
-      if (selectedPay.getAttribute('data-id') === '2') { // Bank card logic
+      if (!selectedPay) { alert("Vui lòng chọn phương thức thanh toán!"); return false; }
+      if (selectedPay.getAttribute('data-id') === '2') {
         const num = document.getElementById('card-num').value.trim();
         const exp = document.getElementById('card-exp').value.trim();
         const cvv = document.getElementById('card-cvv').value.trim();
-        if (!num || !exp || !cvv) {
-          alert("Vui lòng điền đủ thông tin thẻ tín dụng!");
-          return false;
-        }
+        if (!num || !exp || !cvv) { alert("Vui lòng điền đủ thông tin thẻ!"); return false; }
       }
       return true;
     }
 
     btnNext.addEventListener('click', async () => {
-      // Check if cart is empty before proceeding
       const activeItems = document.querySelectorAll('.cart-item:not([style*="display: none"])');
-      if (activeItems.length === 0) {
-        alert('Giỏ hàng trống!');
-        return;
-      }
+      if (activeItems.length === 0) { alert('Giỏ hàng trống!'); return; }
 
-      if (currentStep === 1) {
-        goToStep(2);
-      } else if (currentStep === 2) {
-        if (!validateShipping()) return;
-        goToStep(3);
-      } else {
-        // Step 3: validate and checkout
+      if (currentStep === 1) { goToStep(2); }
+      else if (currentStep === 2) { if (!validateShipping()) return; goToStep(3); }
+      else {
         if (!validatePayment()) return;
-        btnNext.innerText = 'Đang xử lý...';
+        btnNext.innerText = 'Processing...';
         btnNext.disabled = true;
 
         const addressStr = `${document.getElementById('ship-addr').value}, ${document.getElementById('ship-district').value}, ${document.getElementById('ship-city').value}`;
@@ -447,35 +455,33 @@
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-              customer_id: sessionCustomerId ? parseInt(sessionCustomerId) : 1, // Fallback dummy customer
+              customer_id: sessionCustomerId ? parseInt(sessionCustomerId) : 1,
               address: addressStr,
               shipping_method_id: shipMethodId,
               payment_method_id: payMethodId
             })
           });
-          
+
           if (response.ok) {
             document.getElementById('modal').classList.add('show');
             track('order_placed', {total: document.getElementById('total').textContent.trim()});
-            // Clear cart items visually
             document.querySelectorAll('.cart-item').forEach(el => el.style.display = 'none');
             calculateTotal();
           } else {
             const data = await response.json();
             alert('Có lỗi xảy ra khi đặt hàng: ' + (data.detail || JSON.stringify(data)));
-            btnNext.innerHTML = 'ĐẶT HÀNG';
+            btnNext.innerHTML = 'Place Order →';
             btnNext.disabled = false;
           }
         } catch (err) {
           alert('Lỗi mạng khi đặt hàng!');
-          btnNext.innerHTML = 'ĐẶT HÀNG';
+          btnNext.innerHTML = 'Place Order →';
           btnNext.disabled = false;
         }
       }
     });
     btnPrev.addEventListener('click',()=>{if(currentStep>1)goToStep(currentStep-1)});
 
-    // Calculate total function
     function calculateTotal() {
       let subtotal = 0;
       let itemCount = 0;
@@ -485,8 +491,6 @@
           const qty = parseInt(item.querySelector('.qty-val').value) || 1;
           subtotal += price * qty;
           itemCount += qty;
-          
-          // Cập nhật giá review bên bước 3
           const itemId = item.dataset.id;
           const reviewQtySpan = document.querySelector(`.review-qty-${itemId}`);
           if(reviewQtySpan) reviewQtySpan.textContent = qty;
@@ -497,13 +501,12 @@
 
       const shipText = document.getElementById('ship-cost').textContent.replace(/[^\d]/g, '');
       const shipCost = parseInt(shipText) || 0;
-
       const total = subtotal + shipCost;
 
       document.getElementById('cart-item-count').textContent = itemCount;
       document.getElementById('subtotal').textContent = subtotal.toLocaleString('vi-VN') + ' ₫';
       document.getElementById('total').textContent = total.toLocaleString('vi-VN') + ' ₫';
-      
+
       const badge = document.getElementById('cart-count');
       if (badge) {
         if (itemCount > 0) { badge.textContent = itemCount; badge.style.display = 'flex'; }
@@ -512,39 +515,23 @@
     }
 
     async function updateQtyAPI(itemId, qty) {
-      try {
-        await fetch(`/api/cart/cart-items/${itemId}/`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ quantity: qty })
-        });
-      } catch (e) { console.error(e); }
+      try { await fetch(`/api/cart/cart-items/${itemId}/`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ quantity: qty }) }); } catch (e) { console.error(e); }
     }
 
-    // Qty buttons
     document.querySelectorAll('.qp').forEach(b=>{b.addEventListener('click',()=>{
       const i=b.previousElementSibling;
       const itemEl = b.closest('.cart-item');
       const itemId = itemEl.dataset.id;
-      if(+i.value<10) {
-        i.value=+i.value+1;
-        calculateTotal();
-        updateQtyAPI(itemId, i.value);
-      }
+      if(+i.value<10) { i.value=+i.value+1; calculateTotal(); updateQtyAPI(itemId, i.value); }
     })});
-    
+
     document.querySelectorAll('.qm').forEach(b=>{b.addEventListener('click',()=>{
       const i=b.nextElementSibling;
       const itemEl = b.closest('.cart-item');
       const itemId = itemEl.dataset.id;
-      if(+i.value>1) {
-        i.value=+i.value-1;
-        calculateTotal();
-        updateQtyAPI(itemId, i.value);
-      }
+      if(+i.value>1) { i.value=+i.value-1; calculateTotal(); updateQtyAPI(itemId, i.value); }
     })});
 
-    // Remove item
     document.querySelectorAll('.cart-item-remove').forEach(r=>{
       r.addEventListener('click', async ()=>{
         const itemEl = r.closest('.cart-item');
@@ -552,22 +539,16 @@
         try {
           const res = await fetch(`/api/cart/cart-items/${itemId}/`, { method: 'DELETE' });
           if(res.ok) {
-            itemEl.style.display = 'none';
-            itemEl.remove();
-            
+            itemEl.style.display = 'none'; itemEl.remove();
             const reviewEl = document.querySelector(`.review-item[data-id="${itemId}"]`);
             if(reviewEl) { reviewEl.style.display = 'none'; reviewEl.remove(); }
-            
             calculateTotal();
             track('remove_from_cart', { item_id: itemId });
-          } else {
-            alert('Không thể xóa sản phẩm khỏi giỏ hàng.');
-          }
+          } else { alert('Không thể xóa sản phẩm khỏi giỏ hàng.'); }
         } catch(e) { console.error(e); }
       });
     });
 
-    // Delivery select
     window.selectDelivery=function(el){
       document.querySelectorAll('.delivery-card').forEach(c=>c.classList.remove('selected'));
       el.classList.add('selected');
@@ -575,22 +556,21 @@
       calculateTotal();
     };
 
-    // Payment select
     window.selectPay=function(el,type){
       document.querySelectorAll('.pay-card').forEach(c=>c.classList.remove('selected'));
       el.classList.add('selected');
       document.getElementById('card-form').classList.toggle('show',type==='bank');
     };
 
-    // Chat
+    /* CHAT */
     (function(){
       const AI='/api/ai-behavior',KEY='bookstore-ai-secret-key-2024';
       const uid=localStorage.getItem('lumiere_uid')||('user_'+Date.now());localStorage.setItem('lumiere_uid',uid);
       const bubble=document.getElementById('chat-bubble'),panel=document.getElementById('chat-panel'),close=document.getElementById('chat-close'),input=document.getElementById('chat-input'),send=document.getElementById('chat-send'),msgs=document.getElementById('chat-messages'),qr=document.getElementById('chat-quick-replies');
       bubble.addEventListener('click',()=>{panel.classList.toggle('open');if(panel.classList.contains('open'))input.focus()});
       close.addEventListener('click',()=>panel.classList.remove('open'));
-      function addMsg(t,u){const d=document.createElement('div');d.className='chat-msg '+(u?'user':'bot');d.innerHTML=`<div class="chat-avatar">${u?'B':'L'}</div><div class="chat-msg-bubble">${t}</div>`;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight}
-      function showT(){const d=document.createElement('div');d.className='chat-msg bot';d.id='ti';d.innerHTML='<div class="chat-avatar">L</div><div class="chat-msg-bubble"><div class="chat-typing"><span></span><span></span><span></span></div></div>';msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight}
+      function addMsg(t,u){const d=document.createElement('div');d.className='chat-msg '+(u?'user':'bot');d.innerHTML=`<div class="chat-avatar">${u?'U':'N'}</div><div class="chat-msg-bubble">${t}</div>`;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight}
+      function showT(){const d=document.createElement('div');d.className='chat-msg bot';d.id='ti';d.innerHTML='<div class="chat-avatar">N</div><div class="chat-msg-bubble"><div class="chat-typing"><span></span><span></span><span></span></div></div>';msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight}
       function hideT(){const e=document.getElementById('ti');if(e)e.remove()}
       async function sm(m){if(!m.trim())return;addMsg(m,true);input.value='';qr.style.display='none';showT();try{const r=await fetch(AI+'/chat',{method:'POST',headers:{'Content-Type':'application/json','X-API-Key':KEY},body:JSON.stringify({user_id:uid,message:m})});const d=await r.json();hideT();addMsg(d.answer||'Xin lỗi, có lỗi.',false)}catch(e){hideT();addMsg('Không kết nối được AI.',false)}}
       send.addEventListener('click',()=>sm(input.value));input.addEventListener('keydown',e=>{if(e.key==='Enter')sm(input.value)});
@@ -621,10 +601,10 @@
           if (!isActive) {
             const token = localStorage.getItem('access_token');
             if (!token) {
-              profileDropdown.innerHTML = '<div class="profile-dropdown-header"><strong>Khách hàng</strong><span>Chưa đăng nhập</span></div><a href="/auth/" onclick="event.stopPropagation()">Đăng nhập / Đăng ký</a>';
+              profileDropdown.innerHTML = '<div class="profile-dropdown-header"><strong>Guest</strong><span>Chưa đăng nhập</span></div><a href="/auth/" onclick="event.stopPropagation()">Đăng nhập / Đăng ký</a>';
             } else {
-              const name = localStorage.getItem('user_name') || 'Người dùng';
-              profileDropdown.innerHTML = '<div class="profile-dropdown-header"><strong id="profile-name">' + name + '</strong><span id="profile-email">Chào mừng trở lại</span></div><a href="/profile/"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Hồ sơ của tôi</a><a href="/orders/"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path></svg>Đơn hàng của tôi</a><a href="#" class="text-red" onclick="event.stopPropagation(); handleLogout()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Đăng xuất</a>';
+              const name = localStorage.getItem('user_name') || 'User';
+              profileDropdown.innerHTML = '<div class="profile-dropdown-header"><strong id="profile-name">' + name + '</strong><span id="profile-email">Welcome back</span></div><a href="/profile/"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Hồ sơ của tôi</a><a href="/orders/"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path></svg>Đơn hàng của tôi</a><a href="#" class="text-red" onclick="event.stopPropagation(); handleLogout()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Đăng xuất</a>';
             }
             profileIcon.classList.add('profile-active');
           } else profileIcon.classList.remove('profile-active');
@@ -636,10 +616,7 @@
 
     window.handleLogout = function() { localStorage.removeItem('access_token'); localStorage.removeItem('refresh_token'); localStorage.removeItem('user_name'); localStorage.removeItem('user_role'); localStorage.removeItem('lumiere_uid'); localStorage.removeItem('quystore_user'); document.cookie = 'access_token=; path=/; max-age=0; SameSite=Lax'; window.location.href = '/auth/'; };
 
-    document.addEventListener('DOMContentLoaded', () => {
-      updateCartBadge();
-      setupProfileDropdown();
-    });
+    document.addEventListener('DOMContentLoaded', () => { updateCartBadge(); setupProfileDropdown(); });
   </script>
 </body>
 </html>
