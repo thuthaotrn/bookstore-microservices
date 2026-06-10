@@ -9,17 +9,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
-    :root{--bg-base:#0A0E1A;--bg-panel:#131826;--bg-elevated:#1A2030;--bg-hover:#1E2540;--border:rgba(255,255,255,0.06);--border-strong:rgba(255,255,255,0.12);--text-primary:#E4E7EC;--text-secondary:#8B92A8;--text-muted:#5A6076;--accent:#7C3AED;--accent-glow:#A78BFA;--accent-soft:rgba(124,58,237,0.12);--cyan:#06B6D4;--success:#10B981;--warning:#F59E0B;--danger:#EF4444;--font-display:'Space Grotesk',sans-serif;--font-body:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;--transition:all 0.25s cubic-bezier(0.4,0,0.2,1);--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
+    :root{--bg-base:#F8FAFC;--bg-panel:#FFFFFF;--bg-elevated:#F1F5F9;--bg-hover:#E2E8F0;--border:rgba(15,23,42,0.08);--border-strong:rgba(15,23,42,0.15);--text-primary:#0F172A;--text-secondary:#475569;--text-muted:#94A3B8;--accent:#7C3AED;--accent-glow:#6D28D9;--accent-soft:rgba(124,58,237,0.06);--cyan:#0891B2;--success:#059669;--warning:#D97706;--danger:#DC2626;--font-display:'Space Grotesk',sans-serif;--font-body:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;--transition:all 0.25s cubic-bezier(0.4,0,0.2,1);--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--bg-base);font-family:var(--font-body);color:var(--text-primary);min-height:100vh;font-size:14px;line-height:1.6;display:flex}
-    h1,h2,h3,h4,h5{font-family:var(--font-display);font-weight:600;color:#fff;letter-spacing:-0.02em}
+    h1,h2,h3,h4,h5{font-family:var(--font-display);font-weight:600;color:var(--text-primary);letter-spacing:-0.02em}
     a{color:inherit;text-decoration:none;transition:var(--transition)}
     button{cursor:pointer;font-family:inherit;border:none;outline:none;transition:var(--transition)}
 
     /* SIDEBAR */
     .sidebar{width:260px;min-height:100vh;background:var(--bg-panel);border-right:1px solid var(--border);position:sticky;top:0;flex-shrink:0;display:flex;flex-direction:column;align-self:stretch}
     .sidebar-brand{padding:24px;border-bottom:1px solid var(--border)}
-    .sidebar-brand h3{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:2px;color:#fff;display:flex;align-items:center;gap:10px}
+    .sidebar-brand h3{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:2px;color:var(--text-primary);display:flex;align-items:center;gap:10px}
     .sidebar-brand h3::before{content:'';width:10px;height:10px;background:var(--accent);border-radius:2px;box-shadow:0 0 12px var(--accent-glow)}
     .sidebar-brand small{display:block;font-family:var(--font-mono);font-size:10px;color:var(--accent-glow);text-transform:uppercase;letter-spacing:1.5px;margin-top:6px;margin-left:20px}
     .nav-section{padding:20px 12px;flex:1}
@@ -68,7 +68,7 @@
     .kpi-card.pending .kpi-icon{background:rgba(239,68,68,0.12);color:var(--danger)}
     .kpi-card.done .kpi-icon{background:rgba(16,185,129,0.12);color:var(--success)}
 
-    .kpi-value{font-family:var(--font-mono);font-size:30px;font-weight:700;color:#fff;line-height:1;margin-bottom:8px}
+    .kpi-value{font-family:var(--font-mono);font-size:30px;font-weight:700;color:var(--text-primary);line-height:1;margin-bottom:8px}
     .kpi-label{font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px}
     .kpi-sub{font-size:12px;color:var(--text-muted);margin-top:6px}
 
@@ -87,7 +87,7 @@
     .legend-item:last-child{border-bottom:none}
     .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
     .legend-name{font-size:13px;color:var(--text-secondary);flex:1}
-    .legend-count{font-family:var(--font-mono);font-size:13px;font-weight:700;color:#fff}
+    .legend-count{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text-primary)}
     .legend-pct{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-left:4px}
 
     /* TABLE */
@@ -328,12 +328,12 @@
     if (data.length > 0) {
       new Chart(ctx, {
         type: 'doughnut',
-        data: { labels: labels, datasets: [{ data: data, backgroundColor: colors, borderColor: '#131826', borderWidth: 3, hoverOffset: 12 }] },
+        data: { labels: labels, datasets: [{ data: data, backgroundColor: colors, borderColor: '#ffffff', borderWidth: 3, hoverOffset: 12 }] },
         options: {
           responsive: true, maintainAspectRatio: true, cutout: '68%',
           plugins: {
             legend: { display: false },
-            tooltip: { backgroundColor: '#1A2030', titleColor: '#fff', bodyColor: '#E4E7EC', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, padding: 12,
+            tooltip: { backgroundColor: '#ffffff', titleColor: '#0F172A', bodyColor: '#475569', borderColor: 'rgba(15,23,42,0.08)', borderWidth: 1, padding: 12,
               callbacks: { label: function(ctx) { const total = ctx.dataset.data.reduce((a,b) => a+b, 0); const pct = ((ctx.raw / total) * 100).toFixed(1); return `  ${ctx.raw} orders (${pct}%)`; } }
             }
           },
@@ -343,7 +343,7 @@
     } else {
       new Chart(ctx, {
         type: 'doughnut',
-        data: { labels: ['No data'], datasets: [{ data: [1], backgroundColor: ['#1A2030'], borderColor: ['#131826'], borderWidth: 3 }] },
+        data: { labels: ['No data'], datasets: [{ data: [1], backgroundColor: ['#F1F5F9'], borderColor: ['#FFFFFF'], borderWidth: 3 }] },
         options: { responsive: true, cutout: '68%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
       });
     }
